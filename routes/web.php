@@ -10,14 +10,17 @@ Route::get('/register', [AuthController ::class , 'load_register'])->name('regis
 
 Route::post('/register', [AuthController ::class , 'register_post'])->name('register.post');
 
-Route::get('/login', [AuthController ::class , 'load_login'])->name('login.load');
+Route::get('/login', [AuthController ::class , 'load_login'])->name('login');
 
 Route::post('/login', [AuthController ::class , 'login_post'])->name('login.post');
 
 
-Route::get('/home', [HomeController ::class , 'load_home'])->name('home.load');
 
 
+Route::middleware(['auth'])->prefix('home')->group(function(){
+    
+    Route::get('/', [HomeController ::class , 'load_home'])->name('home.load');
 
+});
 
 

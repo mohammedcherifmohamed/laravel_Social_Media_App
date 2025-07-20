@@ -265,7 +265,7 @@
       <div class="text-center mt-6">
         <p class="text-gray-600">
           Already have an account? 
-          <a href="{{route('login.load')}}" class="text-blue-600 hover:text-blue-500 font-medium">Sign in</a>
+          <a href="{{route('login')}}" class="text-blue-600 hover:text-blue-500 font-medium">Sign in</a>
         </p>
       </div>
     </div>

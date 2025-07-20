@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 
 class AuthController extends Controller
@@ -43,7 +44,7 @@ class AuthController extends Controller
             ]);
             
             if($result){
-                return redirect()->route('login.load')->with('register_success','Registration successfully you can Loginto you account');
+                return redirect()->route('login')->with('register_success','Registration successfully you can Loginto you account');
             }
         }catch(\Exception $e){
             return redirect()->back()->with('db_error','somthing went wrong pleas try again') ;
@@ -60,8 +61,8 @@ class AuthController extends Controller
 
         $user = User::where('email',$req->email)->first();
         if($user && Hash::check($req->password , $user->password)){
-
-            return redirect()->route('home.load') ; 
+            Auth::login($user);
+            return redirect()->route('home.load') ;     
         }else{
             
             return redirect()->back()->with('error_login','Email or User Name') ;

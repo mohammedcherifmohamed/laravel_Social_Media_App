@@ -1,7 +1,7 @@
 @extends('Layouts.Main') 
 
 @section('title')
-    register Page    
+    Login Page    
 @endsection
 
 @section('content')
@@ -26,13 +26,13 @@
       <h1 class="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
       <p class="text-gray-600">Sign in to your SocialApp account</p>
     </div>
-    @error(session('error_login'))
-        <x-alert type="danger" >
+    @if(session('error_login'))
+        <x-alert type="error" >
 
             {{session('error_login')}}
 
         </x-alert>
-    @enderror
+    @endif
     <!-- Login Form -->
     <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
       <form action="{{route('login.post')}}" method="POST" class="space-y-6">
