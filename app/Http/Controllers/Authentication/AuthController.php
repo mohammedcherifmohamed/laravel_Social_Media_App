@@ -60,14 +60,20 @@ class AuthController extends Controller
     public function login_post(Request $req){
 
         $user = User::where('email',$req->email)->first();
-        if($user && Hash::check($req->password , $user->password)){
-            Auth::login($user);
+        $credentials = $req->only('email','password');
+        $remember = $req->filled('remember') ;
+        if(Auth::attempt($credentials,$remember)){
             return redirect()->route('home.load') ;     
         }else{
             
             return redirect()->back()->with('error_login','Email or User Name') ;
         }
 
+    }
+
+    public function logout(){
+        Auth::logout();
+        return redirect()->route('login');
     }
 
 }

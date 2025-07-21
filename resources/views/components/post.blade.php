@@ -2,7 +2,7 @@
 
         <div class="bg-white rounded-lg shadow p-4">
           <div class="flex items-center space-x-3 mb-2">
-            <img src="https://randomuser.me/api/portraits/women/44.jpg" class="h-9 w-9 rounded-full"/>
+            <img src="https://randomuser.me/api/portraits/men/44.jpg" class="h-9 w-9 rounded-full"/>
             <div>
               <div class="font-semibold">Jane Doe</div>
               <div class="text-xs text-gray-400">2 hours ago</div>
