@@ -22,12 +22,15 @@
       <div class="bg-white rounded-lg shadow p-4 mb-6 mt-4">
         <div class="flex items-start space-x-3">
           <img src="{{\Illuminate\Support\Facades\Storage::url( Auth::user()->image_path)}}" class="h-10 w-10 rounded-full border-2 border-blue-500"/>
-          <form class="flex-1">
-            <textarea class="w-full border border-gray-200 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none" rows="2" placeholder="What's on your mind?"></textarea>
+          <form action="{{route('post.add')}}" method="POST"  class="flex-1" enctype="multipart/form-data">
+           @csrf
+            <textarea name="content" class="w-full border border-gray-200 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none" rows="2" placeholder="What's on your mind?"></textarea>
             <div class="flex items-center justify-between mt-2">
               <label class="flex items-center space-x-2 cursor-pointer">
                 <i class="fa-solid fa-image"></i>
-                <input type="file" class="hidden"/>
+                  <input id="imageInput" name="image" type="file" accept="image/*" class="hidden" onchange="previewImage(event)" />
+                    <img id="imagePreview" src="#" alt="Image Preview" class="rounded-lg mb-2 max-h-60 w-full object-cover hidden"/>
+
               </label>
               <button type="submit" class="bg-blue-500 text-white px-4 py-1 rounded-lg shadow hover:bg-blue-600 transition">Post</button>
             </div>
@@ -36,14 +39,19 @@
       </div>
       <!-- Posts List -->
       <div class="space-y-6">
-        <!-- Post 1 -->
-        {{-- <x-post></x-post> --}}
+        <!-- Load Posts  -->
+        @foreach($posts as $post)
+          <x-post-card
+            :content="$post->content"
+            :image="$post->image_path"
+          ></x-post-card>
+        @endforeach
 
       </div>
     </section>
     
     <!-- Following Section on Right -->
-    <aside class="hidden lg:block fixed top-16 right-0 w-64 h-[calc(100vh-4rem)] bg-white border-l border-gray-100 shadow-lg z-2 overflow-y-auto">
+    {{-- <aside class="hidden lg:block fixed top-16 right-0 w-64 h-[calc(100vh-4rem)] bg-white border-l border-gray-100 shadow-lg z-2 overflow-y-auto">
       <div class="p-4">
         <h3 class="font-semibold text-lg mb-3">Following</h3>
         <ul class="space-y-4">
@@ -77,7 +85,7 @@
           </li>
         </ul>
       </div>
-    </aside>
+    </aside> --}}
   </main>
 
 
@@ -106,7 +114,21 @@
     function closeModal(id) {
       document.getElementById(id).classList.add('hidden');
     }
-
+function previewImage(event) {
+    const fileInput = event.target;
+    const preview = document.getElementById('imagePreview');
+    
+    if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.classList.remove('hidden'); // remove hidden class
+        };
+        
+        reader.readAsDataURL(fileInput.files[0]);
+    }
+}
     
   </script>
 
