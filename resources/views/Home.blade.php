@@ -39,12 +39,17 @@
       </div>
       <!-- Posts List -->
       <div class="space-y-6">
-        <!-- Load Posts  -->
+       
+
+        {{-- reel image load --}}
         @foreach($posts as $post)
-          <x-post-card
-            :content="$post->content"
-            :image="$post->image_path"
-          ></x-post-card>
+            <x-post-card
+              :content="$post->content"
+              :userImage="$post->user_image"
+              :image="$post->post_image"
+              :timeAgo="$post->created_at"
+              :username="$post->name"
+            ></x-post-card>
         @endforeach
 
       </div>

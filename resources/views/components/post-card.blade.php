@@ -1,16 +1,17 @@
+
 <div>
 
 
         <div class="bg-white rounded-lg shadow p-4">
           <div class="flex items-center space-x-3 mb-2">
-            <img src="{{\Illuminate\Support\Facades\Storage::url( $user_image)}}" class="h-9 w-9 rounded-full"/>
+            <img src="{{\Illuminate\Support\Facades\Storage::url($userImage)}}" class="h-9 w-9 rounded-full"/>
             <div>
               <div class="font-semibold">{{$username}}</div>
               <div class="text-xs text-gray-400">{{$timeAgo}}</div>
             </div>
           </div>
           <div class="mb-2 text-gray-800">{{$content ?? ""}}</div>
-          <img src="{{asset("posts_images/". $image)}}" class="rounded-lg mb-2 max-h-60 w-full object-cover"/>
+          <img src="{{\Illuminate\Support\Facades\Storage::url($image)}}" alt="" class="rounded-lg mb-2 max-h-60 w-full object-cover"/>
           <div class="flex items-center space-x-6 text-gray-500 mb-2">
             <button class="flex items-center space-x-1 hover:text-blue-500"><svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg><span>24</span></button>
             <button class="flex items-center space-x-1 hover:text-blue-500"><svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V10a2 2 0 012-2h2"/></svg><span>5</span></button>

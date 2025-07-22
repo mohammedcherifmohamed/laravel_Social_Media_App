@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class postCard extends Component
+class PostCard extends Component
 {
     /**
      * Create a new component instance.
@@ -15,15 +15,19 @@ class postCard extends Component
     public $username ;
     public $image ;
     public $timeAgo ;
-    public $user_image ;
+    public $userImage ;
 
-    public function __construct($content,$user_image=null,$image=null,$timeAgo=null,$username=null)
+    public function __construct($content,$userImage=null,$image=null,$timeAgo=null,$username=null)
     {
+        
        $this->content = $content ;
        $this->username = $username ;
        $this->image = $image ;
-       $this->user_image = $user_image ;
+       $this->userImage = $userImage ;
        $this->timeAgo = $timeAgo ?? 'just now';
+        
+    //    dd($this->content,$this->username,$this->image,$this->user_image,$this->timeAgo);
+
     }
 
     /**

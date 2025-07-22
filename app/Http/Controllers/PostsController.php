@@ -17,12 +17,12 @@ class PostsController extends Controller
       ]);
 
       $imageName = null;
-
       if ($req->hasFile('image')) {
-         $image = $req->file('image');
-         $imageName = time() . '.' . $image->getClientOriginalExtension(); // ✅ dot not space
-         $image->move(public_path('posts_images'), $imageName);
+         $imageName = $req->file('image')->store('posts_images', 'public'); 
+      } else {
+         $imageName = null;
       }
+
 
       PostsModel::create([
          "user_id" => Auth::id(),
