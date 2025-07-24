@@ -32,6 +32,7 @@ Route::middleware(['auth'])->prefix('post')->group(function(){
 
     Route::post('/add',[PostsController::class,"add_post"])->name("post.add");
     Route::post('/toggle_like',[LikeController::class,"toggle_like"])->name('post.toggle_like');
+    Route::delete('/{postId}/delete',[PostsController::class,"delete_post"])->name('post.delete');
 
 
 });

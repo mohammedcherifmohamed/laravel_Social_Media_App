@@ -44,6 +44,7 @@
         {{-- reel image load --}}
         @foreach($posts as $post)
             <x-post-card
+              
               :post="$post"
               :content="$post->content"
               :userImage="$post->user->image_path"

@@ -10,7 +10,11 @@
               <div class="font-semibold">{{$username}}</div>
               <div class="text-xs text-gray-400">{{$timeAgo}}</div>
             </div>
-            <i class="text-red-800 cursor-pointer fa-solid fa-trash"></i>
+            @if(auth()->id() === $post->user_id && Route::currentRouteNamed('profile.load'))
+              <button  data-post-id="{{$post->id}}" class="delete-post"  >
+                <i class="text-red-800 cursor-pointer fa-solid fa-trash"></i>
+              </button>
+            @endif
           </div>
           <div class="mb-2 text-gray-800">{{$content ?? ""}}</div>
           <img src="{{\Illuminate\Support\Facades\Storage::url($image)}}" alt="" class="rounded-lg mb-2 max-h-60 w-full object-cover"/>

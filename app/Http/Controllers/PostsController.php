@@ -33,6 +33,20 @@ class PostsController extends Controller
       return redirect()->back();
    }
 
+   public function delete_post($postId){
+      $post = Postsmodel::findOrFail($postId);
+
+      if($post->user_id !== auth()->id()){
+         return response()->json(['success'=>false ,'message'=>'unauthorized'],403);
+      }
+     if ($post->image) {
+        \Storage::disk('public')->delete($post->image);
+    }
+
+    $post->delete();
+    return response()->json(['success'=>true]);
+
+   }
 
 
 

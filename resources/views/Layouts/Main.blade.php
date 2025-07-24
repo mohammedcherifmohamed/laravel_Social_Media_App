@@ -89,6 +89,38 @@ fetch(toggleLikeUrl, {
     });
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.delete-post').forEach(button => {
+    button.addEventListener('click', function () {
+      if (!confirm('Are you sure you want to delete this post?')) return;
+
+      const postId = this.dataset.postId;
+
+      fetch(`/post/${postId}/delete`, {
+        method: "DELETE",
+        headers: {
+          'X-CSRF-TOKEN': '{{ csrf_token() }}',
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          this.closest('.bg-white').remove(); 
+        } else {
+          alert(data.message || 'Something went wrong');
+        }
+      })
+      .catch(error => {
+        alert('An error occurred while deleting the post');
+        console.error(error);
+      });
+    });
+  });
+});
+
+
 </script>
 </body>
 </html>
