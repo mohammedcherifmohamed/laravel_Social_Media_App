@@ -10,13 +10,14 @@
               <div class="font-semibold">{{$username}}</div>
               <div class="text-xs text-gray-400">{{$timeAgo}}</div>
             </div>
+            <i class="text-red-800 cursor-pointer fa-solid fa-trash"></i>
           </div>
           <div class="mb-2 text-gray-800">{{$content ?? ""}}</div>
           <img src="{{\Illuminate\Support\Facades\Storage::url($image)}}" alt="" class="rounded-lg mb-2 max-h-60 w-full object-cover"/>
           <div class="flex items-center space-x-6 text-gray-500 mb-2">
             <button
               class="like-btn flex items-center space-x-1 hover:text-red-800"
-              dataa-post-id="{{$post->id}}"
+              data-post-id="{{$post->id}}"
               
             >
             <i class="{{ $liked ? 'fa-solid text-red-600' : 'fa-regular' }} fa-heart"></i>

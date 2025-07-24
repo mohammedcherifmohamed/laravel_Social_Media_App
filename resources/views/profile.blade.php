@@ -8,7 +8,9 @@
 @endsection
 
 @section('content')
-   <x-profile></x-profile>
+   <x-profile
+   :posts="$posts"
+   ></x-profile>
 @endsection
 
 

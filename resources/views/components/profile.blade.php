@@ -1,9 +1,10 @@
-  
+  @props(['posts']) 
+
   
   <!-- Profile Page Content -->
-  <section class="max-w-4xl mx-auto mt-20 mb-10 bg-white rounded-lg shadow p-0 overflow-hidden flex flex-col md:flex-row">
+  <section class="max-w-4xl mx-auto mt-20 mb-10 bg-white rounded-lg shadow p-0 overflow-hidden flex flex-col ">
     <!-- Left: Profile Info -->
-    <div class="md:w-1/3 flex flex-col items-center justify-center p-8 bg-gray-50">
+    <div class="w-full flex flex-col items-center justify-center p-8 bg-gray-50">
       <div class="relative group">
         <img id="profilePic" src="{{\Illuminate\Support\Facades\Storage::url( Auth::user()->image_path)}}" class="h-32 w-32 rounded-full border-4 border-white shadow-lg object-cover mb-4"/>
         <button onclick="openModal('editProfileModal');event.stopPropagation();" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 rounded-full transition group-hover:opacity-100 opacity-0" title="Change Photo">
@@ -14,22 +15,30 @@
       <div class="text-gray-500 mb-2 text-center">{{Auth::user()->nickName ?? ""}}</div>
       <div class="mb-4 text-center">bio here</div>
       <button onclick="openModal('editProfileModal')" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition mt-2">Edit Profile</button>
-      <button class="bg-blue-500 text-white px-4 py-1 rounded-lg shadow hover:bg-blue-600 transition mt-2">Follow</button>
+      {{-- @if(Auth::id() === $post->user->id) --}}
+        <button class="bg-blue-500 text-white px-4 py-1 rounded-lg shadow hover:bg-blue-600 transition mt-2">Follow</button>
+      {{-- @endif --}}
     </div>
     <!-- Right: Cover + Tabs + Posts + Followed People -->
-    <div class="md:w-2/3 flex flex-col md:flex-row">
+    <div class="w-full flex flex-col ">
       <div class="flex-1 flex flex-col">
-        <div class="relative h-40 w-full">
-          <img src="https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=800&q=80" class="w-full h-40 object-cover"/>
-        </div>
+        
         <div class="flex justify-center space-x-8 border-b pb-2 mb-4 mt-4">
           <button class="font-semibold text-blue-600 border-b-2 border-blue-600 pb-1">Posts</button>
           <button class="text-gray-500 hover:text-blue-600">Followers</button>
           <button class="text-gray-500 hover:text-blue-600">Following</button>
         </div>
         <div class="space-y-4 px-6 pb-6">
-         <x-post></x-post>
-
+          @foreach($posts as $post)
+              <x-post-card
+                  :post="$post"
+                    :content="$post->content"
+                    :userImage="$post->user->image_path"
+                    :image="$post->image_path"
+                    :timeAgo="$post->created_at"
+                    :username="$post->name"
+              ></x-post-card>
+          @endforeach
           
         </div>
       </div>
