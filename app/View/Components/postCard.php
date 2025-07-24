@@ -16,16 +16,17 @@ class PostCard extends Component
     public $image ;
     public $timeAgo ;
     public $userImage ;
+    public $post ;
 
-    public function __construct($content,$userImage=null,$image=null,$timeAgo=null,$username=null)
+    public function __construct($post,$content,$userImage=null,$image=null,$timeAgo=null,$username=null)
     {
-        
+        $this->post = $post;
        $this->content = $content ;
        $this->username = $username ;
        $this->image = $image ;
        $this->userImage = $userImage ;
        $this->timeAgo = $timeAgo ?? 'just now';
-        
+        // dd($this->post,$this->content,$this->username,$this->image,$this->userImage,$this->timeAgo);
     //    dd($this->content,$this->username,$this->image,$this->user_image,$this->timeAgo);
 
     }

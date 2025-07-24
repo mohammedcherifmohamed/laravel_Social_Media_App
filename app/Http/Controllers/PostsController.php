@@ -24,7 +24,7 @@ class PostsController extends Controller
       }
 
 
-      PostsModel::create([
+     $res =  PostsModel::create([
          "user_id" => Auth::id(),
          "content" => $req->content,
          "image_path" => $imageName,

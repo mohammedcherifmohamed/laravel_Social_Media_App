@@ -26,6 +26,69 @@
     function closeModal(id) {
       document.getElementById(id).classList.add('hidden');
     }
+        // Minimal JS for sidebar and dropdown
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('-translate-x-full');
+    }
+    function toggleDropdown() {
+      document.getElementById('profileDropdown').classList.toggle('hidden');
+    }
+    function openModal(id) {
+      document.getElementById(id).classList.remove('hidden');
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.add('hidden');
+    }
+function previewImage(event) {
+    const fileInput = event.target;
+    const preview = document.getElementById('imagePreview');
+    
+    if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.classList.remove('hidden'); // remove hidden class
+        };
+        
+        reader.readAsDataURL(fileInput.files[0]);
+    }
+}
+     const toggleLikeUrl = "{{ route('post.toggle_like') }}";
+document.querySelectorAll('.like-btn').forEach(btn => {
+    btn.addEventListener('click', function (e) {
+      console.log("button clicked");
+      e.preventDefault();
+      
+      const postId = event.currentTarget.dataset.postId;
+      console.log("button clicked"+postId);
+      
+        const icon = this.querySelector('i');
+        const countSpan = this.querySelector('.like-count');
+
+fetch(toggleLikeUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ post_id: postId })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.liked) {
+                icon.classList.remove('fa-regular');
+                icon.classList.add('fa-solid', 'text-red-600');
+            } else {
+                icon.classList.remove('fa-solid', 'text-red-600');
+                icon.classList.add('fa-regular');
+            }
+
+            countSpan.textContent = data.likeCount;
+        });
+    });
+});
+
 </script>
 </body>
 </html>
