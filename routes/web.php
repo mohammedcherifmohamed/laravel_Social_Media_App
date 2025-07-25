@@ -5,6 +5,7 @@ use App\Http\Controllers\Authentication\AuthController ;
 use App\Http\Controllers\HomeController ;
 use App\Http\Controllers\PostsController ;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\Comments;
 
 
 
@@ -37,3 +38,12 @@ Route::middleware(['auth'])->prefix('post')->group(function(){
 
 });
 
+Route::middleware(['auth'])->prefix('comment')->group(function(){
+
+    Route::post('/add',[Comments::class,"add_comment"])->name('comment.add');
+    
+    Route::get('/get_comments/{postId}',[Comments::class,"get_comments"])->name('comment.get');
+
+
+    
+});

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PostsModel;
-use Illuminate\Support\Facades\DB;
+use App\Models\comments;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -15,7 +15,6 @@ class HomeController extends Controller{
                 ->orderBy('id', 'desc')
                 ->get();
 
-        
         // dd($posts);
         return view("Home",compact('posts')) ;
     }
