@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PostsModel;
 use App\Models\comments;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -26,6 +27,20 @@ class HomeController extends Controller{
                     ->orderBy('id','desc')
                     ->get();
 
-            return view('Profile',compact('posts')) ;
+            return view('Profile',compact('posts','user')) ;
+    }
+
+    public function SeeProfile($id){
+
+        $user = User::findOrFail($id);
+        $posts = $user->posts()
+                ->with('likes')
+                ->orderBy('id','desc')
+                ->get();
+
+        
+        ; 
+        
+        return view('profile',compact('posts','user'))  ;
     }
 }

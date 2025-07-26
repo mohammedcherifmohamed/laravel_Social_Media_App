@@ -178,13 +178,15 @@
                 // you can fetch comments using btn.dataset.postId if needed
             });
             });
+    const commentRouteTemplate = "{{ url('comment/get_comments') }}/:id";
 
       document.querySelectorAll('.comment-btn').forEach(element => {
     element.addEventListener('click', function () {
         const postId = element.dataset.postId;
         console.log('post Id : ' + postId);
+        const commentUrl = commentRouteTemplate.replace(':id', postId);
 
-        fetch(`comment/get_comments/${postId}`, {
+        fetch(commentUrl, {
             method: 'GET',
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),

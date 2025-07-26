@@ -4,7 +4,7 @@
     $liked = $post->isLikedBy(Auth()->user());
   @endphp
         <div class="bg-white rounded-lg shadow p-4">
-          <div class="flex items-center space-x-3 mb-2">
+          <a href="{{route('profile.see', $post->user->id)}}" class="flex items-center space-x-3 mb-2">
             <img src="{{\Illuminate\Support\Facades\Storage::url($userImage)}}" class="h-9 w-9 rounded-full"/>
             <div>
               <div class="font-semibold">{{$username}}</div>
@@ -15,7 +15,7 @@
                 <i class="text-red-800 cursor-pointer fa-solid fa-trash"></i>
               </button>
             @endif
-          </div>
+          </a>
           <div class="mb-2 text-gray-800">{{$content ?? ""}}</div>
           <img src="{{\Illuminate\Support\Facades\Storage::url($image)}}" alt="" class="rounded-lg mb-2 max-h-60 w-full object-cover"/>
           <div class="flex items-center space-x-6 text-gray-500 mb-2">

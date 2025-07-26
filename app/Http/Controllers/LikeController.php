@@ -24,6 +24,6 @@ class LikeController extends Controller
         'likeCount' => $post->likes()->count()
     ]);
 
-
-   }
+    
+}
 }

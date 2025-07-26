@@ -10,6 +10,7 @@
 @section('content')
    <x-profile
    :posts="$posts"
+   :user="$user"
    ></x-profile>
 @endsection
 

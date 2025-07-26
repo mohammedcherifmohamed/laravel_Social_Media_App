@@ -49,7 +49,7 @@
               :userImage="$post->user->image_path"
               :image="$post->image_path"
               :timeAgo="$post->created_at"
-              :username="$post->name"
+              :username="$post->user->name"
             ></x-post-card>
         @endforeach
 
