@@ -1,4 +1,4 @@
-  @props(['posts', 'user']) 
+  @props(['posts', 'user', 'follows']) 
 
   
   <!-- Profile Page Content -->
@@ -17,8 +17,15 @@
         <button onclick="openModal('editProfileModal')" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition mt-2">Edit Profile</button>
       @endif
       @if(Auth::id() != $user->id)
-        <button class="bg-blue-500 text-white px-4 py-1 rounded-lg shadow hover:bg-blue-600 transition mt-2">Follow</button>
-      @endif
+        <button
+          data-user-id="{{ $user->id }}"
+          id="follow-btn" 
+          class="{{ $follows ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-500 hover:bg-blue-600' }} text-white px-4 py-1 rounded-lg shadow transition mt-2"
+        >
+          {{ $follows ? 'Following' : 'Follow' }}
+        </button>
+    @endif
+
       </div>
     <!-- Right: Cover + Tabs + Posts + Followed People -->
     <div class="w-full flex flex-col ">

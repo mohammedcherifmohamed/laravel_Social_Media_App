@@ -243,8 +243,12 @@
 
     
     searchInput.addEventListener('input', function () {
-
-        fetch(`/home/searchUsers?query=${encodeURIComponent(searchInput.value)}`,{
+        const query = searchInput.value.trim();
+        if (query === '') {
+                document.getElementById('searchResultsList').innerHTML = ''; // clear results
+                return; // stop the request
+        }
+        fetch(`/home/searchUsers?query=${encodeURIComponent(query)}`,{
             method:"GET",
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
@@ -288,10 +292,45 @@
     
 
 
+// _____________ ToggleFollowUser ____________
 
+        const followBtn = document.getElementById('follow-btn') ;
+        
+        followBtn.addEventListener('click', function(){
+            const userId = this.dataset.userId;
+            console.log(userId);
+
+            fetch(`/home/ToggleFollowUser/${userId}`,{
+                method: "POST",
+                headers:{
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(res => res.json())
+            .then(data =>{
+                if (data.followed) {
+                    followBtn.classList.remove("bg-blue-500");
+                    followBtn.classList.add("bg-green-500");
+                    followBtn.textContent = "Following";
+                } else {
+                    followBtn.classList.remove("bg-green-500");
+                    followBtn.classList.add("bg-blue-500");
+                    followBtn.textContent = "Follow";
+                }
+            })
+            .catch(error =>{
+                alert(error.message || 'Something went wrong');
+            });
+
+        });
 
     });
 
+    function ToggleFollowUser(userId){
+
+    }
 
 
 </script>

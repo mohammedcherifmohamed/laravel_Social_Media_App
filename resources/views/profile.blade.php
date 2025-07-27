@@ -9,6 +9,7 @@
 
 @section('content')
    <x-profile
+   :follows="$follows"
    :posts="$posts"
    :user="$user"
    ></x-profile>
