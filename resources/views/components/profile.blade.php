@@ -7,18 +7,19 @@
     <div class="w-full flex flex-col items-center justify-center p-8 bg-gray-50">
       <div class="relative group">
         <img id="profilePic" src="{{\Illuminate\Support\Facades\Storage::url( $user->image_path)}}" class="h-32 w-32 rounded-full border-4 border-white shadow-lg object-cover mb-4"/>
-        <button onclick="openModal('editProfileModal');event.stopPropagation();" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 group-hover:bg-opacity-40 rounded-full transition group-hover:opacity-100 opacity-0" title="Change Photo">
-          <svg class="h-10 w-10 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828a2 2 0 01-2.828 0L9 13zm-6 6h6v-2a2 2 0 012-2h2v6H3a2 2 0 01-2-2v-2z"/></svg>
-        </button>
+        
       </div>
       <div class="font-bold text-2xl text-center mt-2">{{$user->name}}</div>
       <div class="text-gray-500 mb-2 text-center">{{$user->nickName ?? ""}}</div>
       <div class="mb-4 text-center">bio here</div>
-      <button onclick="openModal('editProfileModal')" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition mt-2">Edit Profile</button>
-      {{-- @if(Auth::id() === $post->user->id) --}}
+      
+      @if(Auth::id() === $user->id)
+        <button onclick="openModal('editProfileModal')" class="bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600 transition mt-2">Edit Profile</button>
+      @endif
+      @if(Auth::id() != $user->id)
         <button class="bg-blue-500 text-white px-4 py-1 rounded-lg shadow hover:bg-blue-600 transition mt-2">Follow</button>
-      {{-- @endif --}}
-    </div>
+      @endif
+      </div>
     <!-- Right: Cover + Tabs + Posts + Followed People -->
     <div class="w-full flex flex-col ">
       <div class="flex-1 flex flex-col">

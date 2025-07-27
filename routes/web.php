@@ -27,7 +27,8 @@ Route::middleware(['auth'])->prefix('home')->group(function(){
     Route::get('/profile', [HomeController ::class , 'load_profile'])->name('profile.load');
     
     Route::get('/SeeProfile/{id}', [HomeController ::class , 'SeeProfile'])->name('profile.see');
-
+    
+    Route::get('/searchUsers', [HomeController ::class , 'searchUsers'])->name('users.search');
 });
 
 Route::middleware(['auth'])->prefix('post')->group(function(){

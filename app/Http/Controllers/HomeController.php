@@ -43,4 +43,21 @@ class HomeController extends Controller{
         
         return view('profile',compact('posts','user'))  ;
     }
+
+    public function searchUsers(Request $req){
+
+        $query = $req->query('query');
+
+
+
+       $users =  User::where('name', 'like' , "%$query%" )
+        ->select('id','name','image_path','nickName')
+        ->get();
+
+
+        return response()->json([
+                "success" => true ,
+                "data" => $users
+        ]) ;
+    }
 }

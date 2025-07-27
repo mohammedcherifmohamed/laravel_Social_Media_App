@@ -96,8 +96,6 @@
 
 
 
-
-
   <!-- Bottom Navigation for Mobile -->
   <nav class="fixed bottom-0 left-0 right-0 bg-white shadow md:hidden flex justify-around items-center h-14 z-30">
     <a href="#home" class="flex flex-col items-center text-blue-500"><svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M13 5v6h6"/></svg><span class="text-xs">Home</span></a>
