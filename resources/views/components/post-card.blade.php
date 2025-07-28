@@ -22,6 +22,7 @@
             <button
               class="like-btn flex items-center space-x-1 hover:text-red-800"
               data-post-id="{{$post->id}}"
+              data-url="{{ route('post.toggle_like') }}"
               
             >
             <i class="{{ $liked ? 'fa-solid text-red-600' : 'fa-regular' }} fa-heart"></i>

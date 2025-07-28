@@ -9,7 +9,7 @@
           <button class="lg:hidden mr-2" onclick="toggleSidebar()">
             <svg class="h-6 w-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
           </button>
-          <span class="font-bold text-xl text-blue-600">SocialApp</span>
+          <a href="{{route('home.load')}}" class="font-bold text-xl text-blue-600">SocialApp</a>
         </div>
         <div onclick="toggleDropdownSearchUsers()" id="search-users-button" class="  flex items-center justify-between bg-white px-4 py-3 rounded-xl shadow-md  gap-x-4 max-w-md mx-auto mb-4 cursor-pointer hover: bg-gray-50 transition">
           <h3 class="text-lg font-semibold text-gray-800">Search Users</h3>

@@ -1,29 +1,26 @@
-function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('-translate-x-full');
-    }
-    function toggleDropdown() {
-      document.getElementById('profileDropdown').classList.toggle('hidden');
-    }
-    function openModal(id) {
-      document.getElementById(id).classList.remove('hidden');
-    }
-    function closeModal(id) {
-      document.getElementById(id).classList.add('hidden');
-    }
-        // Minimal JS for sidebar and dropdown
-    function toggleSidebar() {
-      document.getElementById('sidebar').classList.toggle('-translate-x-full');
-    }
-    function toggleDropdown() {
-      document.getElementById('profileDropdown').classList.toggle('hidden');
-    }
-    function openModal(id) {
-      document.getElementById(id).classList.remove('hidden');
-    }
-    function closeModal(id) {
-      document.getElementById(id).classList.add('hidden');
-    }
-function previewImage(event) {
+ console.log('hello');
+ 
+ 
+ window.toggleSidebar = function () {
+    document.getElementById('sidebar').classList.toggle('hidden');
+}
+ window.toggleDropdown = function () {
+    document.getElementById('profileDropdown').classList.toggle('hidden');
+}
+
+window.toggleDropdownSearchUsers = function () {
+    document.getElementById("searchResultsModal").classList.toggle('hidden');
+}
+
+window.openModal = function (id) {
+    document.getElementById(id).classList.remove('hidden');
+}
+
+window.closeModal = function (id) {
+    document.getElementById(id).classList.add('hidden');
+}
+
+window.previewImage = function (event) {
     const fileInput = event.target;
     const preview = document.getElementById('imagePreview');
     
@@ -32,7 +29,7 @@ function previewImage(event) {
         
         reader.onload = function(e) {
             preview.src = e.target.result;
-            preview.classList.remove('hidden'); // remove hidden class
+            preview.classList.remove('hidden');
         };
         
         reader.readAsDataURL(fileInput.files[0]);

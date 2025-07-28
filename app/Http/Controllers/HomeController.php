@@ -8,9 +8,12 @@ use App\Models\comments;
 use App\Models\User;
 use App\Models\follows;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 
 class HomeController extends Controller{
+  
     public function load_home(){
 
         $followedUserIds = follows::where('follower_id', auth()->id())
@@ -99,6 +102,46 @@ public function ToggleFollowUser($id){
     }
 }
 
+    public function update_profile(Request $req){
+        $user = User::findOrFail(auth()->id());
+
+        $res = $req->validate([
+            "oldPassword" => "required",
+            "newPassword" => "nullable|min:3", 
+            "username" => "required|min:3|unique:users,name," . $user->id,
+            "nickName" => "required|min:3",
+            "image" => "nullable|image|mimes:jpeg,png,jpg,gif|max:2048"
+        ]);
+
+        if (!Hash::check($req->oldPassword, $user->password)) {
+            return back()->withErrors(['oldPassword' => 'Old password is incorrect']);
+        }
+
+        $newPassword = $req->newPassword ? Hash::make($req->newPassword) : $user->password;
+
+        
+    if ($req->hasFile('image')) {
+        if ($user->image_path && Storage::disk('public')->exists($user->image_path)) {
+            Storage::disk('public')->delete($user->image_path);
+        }
+
+        $image_path = $req->file('image')->store('profile_images', 'public');
+    } else {
+        $image_path = $user->image_path;
+    }
+
+    if(!$res){
+        return back()->with('errors', 'Something Went Wrong');
+    }
+        $user->update([
+            "name" => $req->username,
+            "nickName" => $req->nickName,
+            "password" => $newPassword,
+            "image_path" => $image_path,
+        ]);
+
+        return back()->with('success', 'Profile updated successfully');
+    }
 
   
 }

@@ -57,7 +57,7 @@
     </section>
     
     <!-- Following Section on Right -->
-    {{-- <aside class="hidden lg:block fixed top-16 right-0 w-64 h-[calc(100vh-4rem)] bg-white border-l border-gray-100 shadow-lg z-2 overflow-y-auto">
+    <aside class="hidden lg:block fixed top-16 right-0 w-64 h-[calc(100vh-4rem)] bg-white border-l border-gray-100 shadow-lg z-2 overflow-y-auto">
       <div class="p-4">
         <h3 class="font-semibold text-lg mb-3">Following</h3>
         <ul class="space-y-4">
@@ -91,7 +91,7 @@
           </li>
         </ul>
       </div>
-    </aside> --}}
+    </aside>
   </main>
 
 

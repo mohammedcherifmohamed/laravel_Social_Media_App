@@ -28,6 +28,7 @@ Route::middleware(['auth'])->prefix('home')->group(function(){
     Route::get('/profile', [HomeController ::class , 'load_profile'])->name('profile.load');
     
     Route::get('/SeeProfile/{id}', [HomeController ::class , 'SeeProfile'])->name('profile.see');
+    Route::post('/update_profile', [HomeController ::class , 'update_profile'])->name('profile.update');
     
     Route::get('/searchUsers', [HomeController ::class , 'searchUsers'])->name('users.search');
     
