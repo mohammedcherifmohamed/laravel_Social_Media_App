@@ -1,6 +1,10 @@
  console.log('hello');
  
  
+ window.toggleChatbar = function () {
+
+    document.getElementById('chat_sidebar').classList.toggle('hidden');
+}
  window.toggleSidebar = function () {
     document.getElementById('sidebar').classList.toggle('hidden');
 }

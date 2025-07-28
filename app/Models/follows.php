@@ -11,4 +11,11 @@ class follows extends Model
         'followed_id',
     
     ];
+
+ public function followed()
+    {
+        return $this->belongsTo(User::class, 'followed_id');
+    }
+
+
 }

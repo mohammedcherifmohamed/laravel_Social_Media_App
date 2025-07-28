@@ -23,15 +23,23 @@ class HomeController extends Controller{
             ->whereIn('user_id', $followedUserIds)
             ->orderBy('id', 'desc')
             ->get();
+              $followedUsers = follows::where('follower_id', auth()->id())
+                    ->with('followed') // assuming relation is defined
+                    ->get()
+                    ->pluck('followed');
 
-        return view("Home",compact('posts')) ;
+        return view("Home",compact('posts','followedUsers')) ;
     }
 
     public function loadExplore(){
          $posts = PostsModel::with('user', 'likes')
                 ->orderBy('id', 'desc')
                 ->get();
-        return view("Home",compact('posts')) ;
+                 $followedUsers = follows::where('follower_id', auth()->id())
+                    ->with('followed') // assuming relation is defined
+                    ->get()
+                    ->pluck('followed');
+        return view("Home",compact('posts','followedUsers')) ;
     }
 
     public function load_profile(Request $req){
