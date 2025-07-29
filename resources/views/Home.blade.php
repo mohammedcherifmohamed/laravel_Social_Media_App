@@ -62,7 +62,7 @@
         <h3 class="font-semibold text-lg mb-3">Following</h3>
         <ul class="space-y-4">
           @foreach($followedUsers as $follows)
-            <li class="flex items-center space-x-3"data-following-id="{{$follows->id}}"onclick="openChat($follows->id)">
+            <li class="flex items-center space-x-3"data-following-id="{{$follows->id}}" onclick="openChat({{$follows->id}})">
               <img src="{{\Illuminate\Support\Facades\Storage::url( $follows->image_path)}}"  class="cursor-pointer h-10 w-10 rounded-full object-cover border-2 border-blue-400"/>
               <div class="cursor-pointer" >
                 <div class="font-medium">@ {{$follows->name}}</div>
@@ -76,27 +76,29 @@
   </main>
 
   <!-- Container for multiple chat boxes -->
-<div id="chat-container" class="hidden fixed bottom-16 right-4 flex gap-4 z-50">
+<div id="chat-container" class="fixed bottom-16 right-4 flex gap-4 z-50">
     <!-- Chat boxes will be injected here -->
-    <section  class="chat-box w-80 h-[500px]  bg-white shadow-lg rounded-lg flex flex-col">
+    <section id="chat-box"  class="hidden chat-box w-80 h-[500px]  bg-white shadow-lg rounded-lg flex flex-col">
      <div  class="flex items-center justify-between p-4 border-b">
-          <h2 class="text-xl font-bold">محادثة مع Mohamed</h2>
+          <h2 id="chat-name" class="text-xl font-bold"> Chat With Mohamed</h2>
           <button onclick="hidechatBox()" class="text-gray-500 hover:text-red-600 text-xl leading-none">
               &times;
           </button>
       </div>
       <!-- Messages Area -->
-      <div class="flex-1 overflow-y-auto space-y-2 px-4 py-2 bg-gray-50">
-          <!-- Example Sent Message -->
-          <div class="flex justify-end">
+      <div id="messages_area" class="flex-1 overflow-y-auto space-y-2 px-4 py-2 bg-gray-50">
+        <div id="error_msg">
+          
+        </div> 
+        <!-- Example Sent Message -->
+          <div id="sender-message" class="flex justify-end">
               <div class="max-w-[70%] px-4 py-2 rounded-lg bg-blue-500 text-white text-sm">
-                  مرحباً، كيف حالك؟
+                  
               </div>
           </div>
           <!-- Example Received Message -->
-          <div class="flex justify-start">
+          <div id="reciever-message" class="flex justify-start">
               <div class="max-w-[70%] px-4 py-2 rounded-lg bg-gray-200 text-gray-800 text-sm">
-                  بخير، وأنت؟
               </div>
           </div>
       </div>

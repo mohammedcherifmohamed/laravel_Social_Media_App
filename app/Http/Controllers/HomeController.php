@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\PostsModel;
 use App\Models\comments;
 use App\Models\User;
+use App\Models\chat;
 use App\Models\follows;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -128,19 +129,19 @@ public function ToggleFollowUser($id){
         $newPassword = $req->newPassword ? Hash::make($req->newPassword) : $user->password;
 
         
-    if ($req->hasFile('image')) {
-        if ($user->image_path && Storage::disk('public')->exists($user->image_path)) {
-            Storage::disk('public')->delete($user->image_path);
+        if ($req->hasFile('image')) {
+            if ($user->image_path && Storage::disk('public')->exists($user->image_path)) {
+                Storage::disk('public')->delete($user->image_path);
+            }
+
+            $image_path = $req->file('image')->store('profile_images', 'public');
+        } else {
+            $image_path = $user->image_path;
         }
 
-        $image_path = $req->file('image')->store('profile_images', 'public');
-    } else {
-        $image_path = $user->image_path;
-    }
-
-    if(!$res){
-        return back()->with('errors', 'Something Went Wrong');
-    }
+        if(!$res){
+            return back()->with('errors', 'Something Went Wrong');
+        }
         $user->update([
             "name" => $req->username,
             "nickName" => $req->nickName,
@@ -152,4 +153,27 @@ public function ToggleFollowUser($id){
     }
 
   
+    public function chat_Load($id){
+
+        $user = User::findOrFail($id) ;
+        $chat_messages = Chat::where(function ($query) use ($id) {
+            $query->where('sender_id', auth()->id())
+                ->where('reciever_id', $id);
+        })->orWhere(function ($query) use ($id) {
+            $query->where('sender_id', $id)
+                ->where('reciever_id', auth()->id());
+        })
+        ->get();
+
+
+
+        return response()->json([
+            'success' => true ,
+            'reciever_chat' => $user->name,
+            'chat_messages' => $chat_messages 
+        ]);
+    
+    
+    }
+
 }
