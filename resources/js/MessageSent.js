@@ -1,16 +1,26 @@
+
 document.addEventListener('DOMContentLoaded',function(){
-    Echo.channel('public-message')
-        .listen('MessageSent', (e) => {
-            console.log('Message received:', e);
-            document.getElementById('msg-div').innerHTML += `
-                <div class="flex justify-start">
-                    <div  class="max-w-[75%] px-4 py-2 rounded-xl text-sm
-                          bg-gray-300 text-black rounded-bl-none">
-                          ${e.message}
+Echo.private('chat.' + USER_ID)
+    .listen('MessageSent', (e) => {
+        console.log('New message received:', e);
+
+        const align = e.sender_id === USER_ID ? 'end' : 'start';
+        const bubbleClass = e.sender_id === USER_ID
+            ? 'bg-blue-500 text-white rounded-br-none'
+            : 'bg-gray-300 text-black rounded-bl-none';
+
+        const msgDiv = document.getElementById('msg-div');
+
+        // Only display message if it's relevant to the open chat
+        if (parseInt(e.sender_id) === parseInt(CURRENT_CHAT_ID) || parseInt(e.reciever_id) === parseInt(CURRENT_CHAT_ID)) {
+            msgDiv.innerHTML += `
+                <div class="flex justify-${align}">
+                    <div class="max-w-[75%] px-4 py-2 rounded-xl text-sm ${bubbleClass}">
+                        ${e.message}
                     </div>
                 </div>
-
             `;
-            // You can update the UI or perform other actions here
-        });
+            msgDiv.scrollTop = msgDiv.scrollHeight;
+        }
+    });
 });

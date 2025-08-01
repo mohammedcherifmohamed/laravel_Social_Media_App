@@ -6,6 +6,7 @@ window.hidechatBox= function(){
 }
 
 window.openChat = function (id) {
+        CURRENT_CHAT_ID = id;
     const chatBox = document.querySelector('#chat-box');
     chatBox.classList.remove('hidden');
     
@@ -21,6 +22,10 @@ window.openChat = function (id) {
         console.log('Conversation data:', data);
         const msgDiv = document.getElementById('msg-div');
         const chat_receiver = document.getElementById('chat-receiver');
+
+        const reciever_id = document.getElementById('reciever_id');
+        reciever_id.value = data.reciever_id;
+
         chat_receiver.innerHTML = "Chat With " + data.reciever_chat;
         msgDiv.innerHTML = ''; // Clear previous messages
         data.chat_messages.forEach(message => {
@@ -41,4 +46,32 @@ window.openChat = function (id) {
     
     console.log(id);
 
+}
+
+window.sendMessage = function(event){
+    event.preventDefault();
+
+    const form = event.target;
+    const message = form.message.value;
+    const reciever_id = form.reciever_id.value;
+
+    fetch('/home/send', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({
+            message: message,
+            reciever_id: reciever_id
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log('Message sent:', data);
+        form.message.value = ''; // Clear input
+    })
+    .catch(err => {
+        console.error('Failed to send message:', err);
+    });
 }

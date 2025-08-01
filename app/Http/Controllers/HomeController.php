@@ -174,10 +174,33 @@ public function ToggleFollowUser($id){
             'success' => true ,
             'current_user' => auth()->id(),
             'reciever_chat' => $user->name,
+            'reciever_id' => $user->id,
             'chat_messages' => $chat_messages 
         ]);
     
     
     }
+
+    public function send(Request $req){
+        $req->validate([
+            'message' => "required|max:255",
+            'reciever_id' => "required|exists:users,id"
+        ]);
+        $message = chat::create([
+            'sender_id' => auth()->id(),
+            'reciever_id' =>  $req->reciever_id,
+            'message' => $req->message
+        ]);
+        
+        broadcast(new MessageSent($message));
+        return response()->json([
+            'success' => true ,
+            'message' => $message
+        ]);
+    
+        
+    }
+
+
 
 }

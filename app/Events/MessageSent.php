@@ -33,14 +33,19 @@ class MessageSent implements ShouldBroadcastNow
      */
     public function broadcastOn(): array
     {
-        return 
-            [new Channel('public-message')];
+        return [
+            new PrivateChannel('chat.' . $this->message->sender_id),
+            new PrivateChannel('chat.' . $this->message->reciever_id),
+        ];
     }
 
     public function broadcastWith(){
-        return ['message' => $this->message,
-    
-            ];
+        return [
+            'sender_id' => $this->message->sender_id,
+            'reciever_id' => $this->message->reciever_id,
+            'message' => $this->message->message,
+            'created_at' => $this->message->created_at->toDateTimeString(),
+        ];
     }
 
 

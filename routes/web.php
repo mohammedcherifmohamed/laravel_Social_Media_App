@@ -34,6 +34,7 @@ Route::middleware(['auth'])->prefix('home')->group(function(){
     
     Route::post('/ToggleFollowUser/{id}', [HomeController ::class , 'ToggleFollowUser'])->name('users.ToggleFollowUser');
     Route::get('/chatWith/{id}',[HomeController ::class,"chat_Load"])->name("chat.load");
+    Route::post('/send',[HomeController ::class,"send"])->name("chat.send");
     
 });
 

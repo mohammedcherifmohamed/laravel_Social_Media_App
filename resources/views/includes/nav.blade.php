@@ -27,6 +27,7 @@
           <div class="relative">
             <button onclick="toggleDropdown()" class="flex items-center focus:outline-none">
               <img src="{{\Illuminate\Support\Facades\Storage::url( Auth::user()->image_path)}}" class="h-8 w-8 rounded-full border-2 border-blue-500"/>
+              <h1>{{Auth::user()->name}}</h1>
               <svg class="h-4 w-4 ml-1 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
             </button>
             <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-99">
