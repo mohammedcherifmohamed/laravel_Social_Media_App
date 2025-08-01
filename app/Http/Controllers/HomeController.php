@@ -11,12 +11,13 @@ use App\Models\follows;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use App\Events\MessageSent;
 
 
 class HomeController extends Controller{
   
     public function load_home(){
-
+        
         $followedUserIds = follows::where('follower_id', auth()->id())
                           ->pluck('followed_id');
 
@@ -154,7 +155,9 @@ public function ToggleFollowUser($id){
 
   
     public function chat_Load($id){
-
+        // $message = "hello test" ;
+        // broadcast(new MessageSent($message));
+        // return "Message Brodcated";
         $user = User::findOrFail($id) ;
         $chat_messages = Chat::where(function ($query) use ($id) {
             $query->where('sender_id', auth()->id())
@@ -169,6 +172,7 @@ public function ToggleFollowUser($id){
 
         return response()->json([
             'success' => true ,
+            'current_user' => auth()->id(),
             'reciever_chat' => $user->name,
             'chat_messages' => $chat_messages 
         ]);

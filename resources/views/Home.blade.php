@@ -62,7 +62,11 @@
         <h3 class="font-semibold text-lg mb-3">Following</h3>
         <ul class="space-y-4">
           @foreach($followedUsers as $follows)
-            <li class="flex items-center space-x-3"data-following-id="{{$follows->id}}" onclick="openChat({{$follows->id}})">
+        <li 
+            onclick="openChat({{$follows->id}})"
+            class="flex items-center space-x-3 cursor-pointer"
+        >
+
               <img src="{{\Illuminate\Support\Facades\Storage::url( $follows->image_path)}}"  class="cursor-pointer h-10 w-10 rounded-full object-cover border-2 border-blue-400"/>
               <div class="cursor-pointer" >
                 <div class="font-medium">@ {{$follows->name}}</div>
@@ -77,53 +81,36 @@
 
   <!-- Container for multiple chat boxes -->
 <div id="chat-container" class="fixed bottom-16 right-4 flex gap-4 z-50">
-    <!-- Chat boxes will be injected here -->
-    <section id="chat-box"  class="hidden chat-box w-80 h-[500px]  bg-white shadow-lg rounded-lg flex flex-col">
-     <div  class="flex items-center justify-between p-4 border-b">
-          <h2 id="chat-name" class="text-xl font-bold"> Chat With Mohamed</h2>
-          <button onclick="hidechatBox()" class="text-gray-500 hover:text-red-600 text-xl leading-none">
-              &times;
-          </button>
-      </div>
-      <!-- Messages Area -->
-      <div id="messages_area" class="flex-1 overflow-y-auto space-y-2 px-4 py-2 bg-gray-50">
-        <div id="error_msg">
-          
-        </div> 
-        <!-- Example Sent Message -->
-          <div id="sender-message" class="flex justify-end">
-              <div class="max-w-[70%] px-4 py-2 rounded-lg bg-blue-500 text-white text-sm">
-                  
-              </div>
-          </div>
-          <!-- Example Received Message -->
-          <div id="reciever-message" class="flex justify-start">
-              <div class="max-w-[70%] px-4 py-2 rounded-lg bg-gray-200 text-gray-800 text-sm">
-              </div>
-          </div>
-      </div>
+    <div 
+        id="chat-box" 
+        class="hidden flex flex-col h-96 bg-gray-100 rounded-lg shadow overflow-hidden w-full"
+    >        
+        <!-- Chat Header -->
+        <div class="flex justify-between bg-white px-4 py-2 border-b font-bold text-lg sticky top-0 z-10">
+            <div id="chat-receiver" >
+              
+            </div> 
+            <button onclick="closeChat()" class="cursor-pointer text-red-800" >X</button>
+        </div>
+        <!-- Messages Area -->
+        <div id="msg-div" class="flex-1 overflow-y-auto px-4 py-2 space-y-2">
+                
+        </div>
 
-      <!-- Message Input -->
-      <form action="" method="POST" class="p-4 border-t flex items-center space-x-2">
-          @csrf
-          <input type="hidden" name="receiver_id" value="">
-          <input
-              type="text"
-              name="message"
-              placeholder="اكتب رسالتك..."
-              required
-              class="flex-1 border border-gray-300 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-          >
-          <button
-              type="submit"
-              class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >
-              إرسال
-          </button>
-      </form>
-  </section>
+        <!-- Input Form -->
+        <form class="flex items-center border-t px-4 py-2 gap-2 bg-white sticky bottom-0 z-10">
+            <input type="text"  
+                   class="flex-1 border rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" 
+                   placeholder="اكتب رسالتك...">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded-full text-sm">
+                إرسال
+            </button>
+        </form>
+    </div>
+
 
 </div>
+
 
 
 

@@ -23,6 +23,9 @@ window.openModal = function (id) {
 window.closeModal = function (id) {
     document.getElementById(id).classList.add('hidden');
 }
+window.closeChat = function () {
+    document.getElementById("chat-box").classList.add('hidden');
+}
 
 window.previewImage = function (event) {
     const fileInput = event.target;

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\postsModel;
+use App\Models\chat;
+
 
 class User extends Authenticatable
 {
@@ -60,5 +62,11 @@ class User extends Authenticatable
     public function followers(){
         return $this->belongsToMany(User::class , 'follows' , 'followed_id', 'follower_id');
     }
+
+    public function messages()
+    {
+        return $this->hasMany(chat::class);
+    }
+  
 
 }
