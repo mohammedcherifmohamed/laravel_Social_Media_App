@@ -18,7 +18,9 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('follower_id')->references('id')->on('users')->inDelete('cascade');
-            $table->foreign('follower_id')->references('id')->on('users')->inDelete('cascade');
+            $table->foreign('followed_id')->references('id')->on('users')->inDelete('cascade');
+            $table->unique(['follower_id', 'followed_id']); // optional: prevents duplicate follows
+
         });
     }
 
