@@ -54,7 +54,7 @@ class AuthController extends Controller
     }
     
     public function load_login(){
-        return route('login') ;
+        return view('Auth.login') ;
     }
 
     public function login_post(Request $req){
