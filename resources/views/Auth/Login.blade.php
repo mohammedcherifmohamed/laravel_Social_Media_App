@@ -33,6 +33,12 @@
 
         </x-alert>
     @endif
+    @if(session('register_success'))
+    <x-alert type="success">
+        {{ session('register_success') }}
+    </x-alert>
+@endif
+
     <!-- Login Form -->
     <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
       <form action="{{route('login.post')}}" method="POST" class="space-y-6">
