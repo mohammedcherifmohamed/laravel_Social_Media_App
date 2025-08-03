@@ -4,10 +4,25 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\follows ;
+use App\Models\PostsModel ;
 
 class FollowsController extends Controller
 {
     
+    public function getPosts($id){
+             $followedUserIds = follows::where('follower_id', auth()->id())
+                          ->pluck('followed_id');
+
+        $posts = PostsModel::with('user', 'likes')
+            ->whereIn('user_id', $followedUserIds)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'posts' => $posts
+        ]);
+    }
 
     public function getFollowers($id){
         $followed_users = follows::where('followed_id',$id)
@@ -21,6 +36,7 @@ class FollowsController extends Controller
             ]) ;
 
     }
+
     public function getFollowing($id){
         $following_users = follows::where('follower_id',$id)
              ->with('followed')
