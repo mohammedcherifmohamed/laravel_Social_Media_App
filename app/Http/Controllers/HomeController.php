@@ -26,7 +26,7 @@ class HomeController extends Controller{
             ->orderBy('id', 'desc')
             ->get();
               $followedUsers = follows::where('follower_id', auth()->id())
-                    ->with('followed') // assuming relation is defined
+                    ->with('followed')
                     ->get()
                     ->pluck('followed');
 
@@ -201,6 +201,15 @@ public function ToggleFollowUser($id){
         
     }
 
-
+    public function getPosts(){
+        $posts = Posts::wher('user_id',auth()->id())
+            ->with('user', 'likes')
+            ->orderBy('id', 'desc')
+            ->get();
+            return response()->json([
+                'success' => true ,
+                'posts' => $posts
+            ]);
+    }
 
 }

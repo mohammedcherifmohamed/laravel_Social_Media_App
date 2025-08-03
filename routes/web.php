@@ -5,6 +5,7 @@ use App\Http\Controllers\Authentication\AuthController ;
 use App\Http\Controllers\HomeController ;
 use App\Http\Controllers\PostsController ;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\FollowsController;
 use App\Http\Controllers\Comments;
 
 
@@ -35,6 +36,10 @@ Route::middleware(['auth'])->prefix('home')->group(function(){
     Route::post('/ToggleFollowUser/{id}', [HomeController ::class , 'ToggleFollowUser'])->name('users.ToggleFollowUser');
     Route::get('/chatWith/{id}',[HomeController ::class,"chat_Load"])->name("chat.load");
     Route::post('/send',[HomeController ::class,"send"])->name("chat.send");
+
+    Route::get('/getFollowers/{id}',[FollowsController::class,"getFollowers"])->name("followers.get");
+    Route::get('/getFollowing/{id}',[FollowsController::class,"getFollowing"])->name("following.get");
+    Route::get('/getPosts/{id}',[FollowsController::class,"getPosts"])->name("posts.get");
     
 });
 

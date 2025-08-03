@@ -46,23 +46,27 @@
       <div class="flex-1 flex flex-col">
         
         <div class="flex justify-center space-x-8 border-b pb-2 mb-4 mt-4">
-          <button class="font-semibold text-blue-600 border-b-2 border-blue-600 pb-1">Posts</button>
-          <button class="text-gray-500 hover:text-blue-600">Followers</button>
-          <button class="text-gray-500 hover:text-blue-600">Following</button>
+          <button id="posts_btn" onclick="loadPosts({{$user->id}})"  class="font-semibold text-blue-600 border-b-2 border-blue-600 pb-1">Posts</button>
+          <button id="follower_btn" onclick="loadFollowers({{$user->id}})" class="text-gray-500 hover:text-blue-600 ">Followers</button>
+          <button id="following_btn" onclick="loadFollowing({{$user->id}})" class="text-gray-500 hover:text-blue-600">Following</button>
+        
         </div>
-        <div class="space-y-4 px-6 pb-6">
-          @foreach($posts as $post)
-              <x-post-card
-                    :post="$post"
-                    :content="$post->content"
-                    :userImage="$post->user->image_path"
-                    :image="$post->image_path"
-                    :timeAgo="$post->created_at"
-                    :username="$post->name"
-              ></x-post-card>
-          @endforeach
-          
+        <div id="load_content">
+          <div id="posts_container" class="space-y-4 px-6 pb-6">
+              @foreach($posts as $post)
+                  <x-post-card
+                        :post="$post"
+                        :content="$post->content"
+                        :userImage="$post->user->image_path"
+                        :image="$post->image_path"
+                        :timeAgo="$post->created_at"
+                        :username="$post->name"
+                  ></x-post-card>
+              @endforeach
+              
+            </div>
         </div>
+   
       </div>
       <!-- Followed People Section -->
       

@@ -62,17 +62,28 @@
         <h3 class="font-semibold text-lg mb-3">Following</h3>
         <ul class="space-y-4">
           @foreach($followedUsers as $follows)
-        <li 
-            onclick="openChat({{$follows->id}})"
-            class="flex items-center space-x-3 cursor-pointer"
-        >
-
-              <img src="{{\Illuminate\Support\Facades\Storage::url( $follows->image_path)}}"  class="cursor-pointer h-10 w-10 rounded-full object-cover border-2 border-blue-400"/>
-              <div class="cursor-pointer" >
-                <div class="font-medium">@ {{$follows->name}}</div>
-                <div class="text-xs text-gray-400">{{$follows->nickName}}</div>
+            <li class="flex items-center space-x-3 relative">
+              <a href="{{ route('profile.see', $follows->id) }}">
+                <div class="relative">
+                  <img src="{{ Storage::url($follows->image_path) }}" class="cursor-pointer h-10 w-10 rounded-full object-cover border-2 border-blue-400"/>
+                  @if($follows->is_online)
+                    <span class="absolute bottom-0 right-0 h-3 w-3 bg-green-500 border-2 border-white rounded-full"></span>
+                  @else
+                    <span class="absolute bottom-0 right-0 h-3 w-3 bg-gray-300 border-2 border-white rounded-full"></span>
+                  @endif
+                </div>
+              </a>
+              <div onclick="openChat({{ $follows->id }})" class="cursor-pointer">
+                <div class="font-medium">@ {{ $follows->name }}</div>
+                <div class="text-xs text-gray-400">
+                  {{ $follows->nickName }}
+                  @if($follows->is_online)
+                    <span class="ml-1 text-green-500">• Online</span>
+                  @endif
+                </div>
               </div>
             </li>
+
          @endforeach
         </ul>
       </div>
@@ -98,10 +109,13 @@
         </div>
 
         <!-- Input Form -->
+        <div id="typing-indicator" class="text-sm text-gray-500 mt-2 ml-2"></div>
+
         <form onsubmit="sendMessage(event)" class="flex items-center border-t px-4 py-2 gap-2 bg-white sticky bottom-0 z-10">
           @csrf  
           <input type="text" name="reciever_id" id="reciever_id" class="hidden" >  
           <input 
+                id="chatInput"
                   name="message"
                   type="text"  
                    class="flex-1 border rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400" 

@@ -75,3 +75,14 @@ window.sendMessage = function(event){
         console.error('Failed to send message:', err);
     });
 }
+document.addEventListener('DOMContentLoaded', function () {
+    const chatInput = document.getElementById('chatInput');
+
+    chatInput.addEventListener('input', () => {
+        Echo.private('chat.' + CURRENT_CHAT_ID)
+            .whisper('typing', {
+                user_id: USER_ID,
+                user_name: USER_NAME,
+            });
+    });
+});
