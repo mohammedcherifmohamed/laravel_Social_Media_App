@@ -62,9 +62,9 @@ class HomeController extends Controller{
                 ->orderBy('id','desc')
                 ->get();
         ; 
-                $follows = follows::where('follower_id', auth()->id())
-                                ->where('followed_id', $id)
-                                ->exists(); // returns true/false
+        $follows = follows::where('follower_id', auth()->id())
+                    ->where('followed_id', $id)
+                    ->exists();
 
         return view('profile',compact('posts','user','follows'))  ;
     }

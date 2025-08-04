@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\follows ;
 use App\Models\PostsModel ;
+use Illuminate\Support\Facades\Storage;
+
 
 class FollowsController extends Controller
 {
@@ -24,30 +26,65 @@ class FollowsController extends Controller
         ]);
     }
 
-    public function getFollowers($id){
-        $followed_users = follows::where('followed_id',$id)
-             ->with('follower')
-            ->get() ;
 
-            return  response()->json([
-                "success" => true,
-                "followed_users" => $followed_users
+public function getFollowers($id){
+    $followed_users = follows::where('followed_id', $id)
+        ->with('follower')
+        ->get();
 
-            ]) ;
+    return response()->json([
+        "success" => true,
+        "followed_users" => $followed_users->map(function ($follow) {
+            $user = $follow->follower;
 
-    }
+            // Check if the auth user follows this follower
+            $isFollowing = follows::where('follower_id', auth()->id())
+                ->where('followed_id', $user->id)
+                ->exists();
 
-    public function getFollowing($id){
-        $following_users = follows::where('follower_id',$id)
-             ->with('followed')
-            ->get() ;
-            // $image_path = \Illuminate\Support\Facades\Storage::url($user->followed->image_path);
-            return  response()->json([
-                "success" => true,
-                "following_users" => $following_users,
-                "image_path" => "http://localhost:8000/storage/" . auth()->user()->image_path
-            ]) ;
-
-    }
-
+            return [
+                'follower' => [
+                    "id" => $user->id,
+                    'name' => $user->name,
+                    'nickName' => $user->nickName,
+                    'image_path' => $user->image_path
+                        ? Storage::url($user->image_path)
+                        : asset('images/default-avatar.png'),
+                    'is_followed_by_auth_user' => $isFollowing,
+                ]
+            ];
+        })
+    ]);
 }
+
+public function getFollowing($id){
+    $following_users = follows::where('follower_id', $id)
+        ->with('followed')
+        ->get();
+
+    return response()->json([
+        "success" => true,
+        "following_users" => $following_users->map(function ($follow) {
+            $user = $follow->followed;
+
+            // Check if the auth user follows this user
+            $isFollowing = follows::where('follower_id', auth()->id())
+                ->where('followed_id', $user->id)
+                ->exists();
+
+            return [
+                'followed' => [
+                    "id" => $user->id,
+                    'name' => $user->name,
+                    'nickName' => $user->nickName,
+                    'image_path' => $user->image_path
+                        ? Storage::url($user->image_path)
+                        : asset('images/default-avatar.png'),
+                    'is_followed_by_auth_user' => $isFollowing,
+                ]
+            ];
+        })
+    ]);
+}
+}
+

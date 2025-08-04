@@ -76,7 +76,7 @@
 <div id="followersModal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
   <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
     <button class="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl" onclick="closeModal('followersModal')">&times;</button>
-    <h2 class="text-xl font-bold mb-4">Followers</h2>
+    <h2 id="followsTitle" class="text-xl font-bold mb-4">Followers</h2>
     <div id="followersList" class="space-y-4 overflow-y-auto max-h-96">
       <!-- Followers will be appended here -->
     </div>
