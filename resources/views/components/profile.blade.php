@@ -33,8 +33,7 @@
       @if(Auth::id() != $user->id)
         <button
           data-user-id="{{ $user->id }}"
-          id="follow-btn" 
-          class="{{ $follows ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-500 hover:bg-blue-600' }} text-white px-4 py-1 rounded-lg shadow transition mt-2"
+          class="follow-btn {{ $follows ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-500 hover:bg-blue-600' }} text-white px-4 py-1 rounded-lg shadow transition mt-2"
         >
           {{ $follows ? 'Following' : 'Follow' }}
         </button>

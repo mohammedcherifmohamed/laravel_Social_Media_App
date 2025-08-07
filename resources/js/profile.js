@@ -23,21 +23,26 @@ window.loadFollowers = function(id){
                 console.log(follower);
                 // console.log(follower.follower.image_path);
                 followersList.innerHTML +=`
-                <a href="/home/SeeProfile/+${follower.follower.id}" class="flex items-center justify-between bg-white shadow rounded-lg p-4">
-                    <div class="flex items-center space-x-4">
-                    <img src="${follower.follower.image_path}" alt="Avatar" class="w-10 h-10 rounded-full object-cover">
-                    <div>
-                        <h2 class="text-gray-800 font-semibold">${follower.follower.name}</h2>
-                        <p class="text-gray-500 text-sm">@${follower.follower.nickName}</p>
-                    </div>
-                    </div>
-                  <button class="${follower.follower.is_followed_by_auth_user ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-500 hover:bg-blue-600'} text-white px-4 py-1 rounded-lg shadow transition mt-2">
-                    ${follower.follower.is_followed_by_auth_user ? 'Following' : 'Follow'}
-                </button>
-                </a>
+                <div class="flex items-center justify-between bg-white shadow rounded-lg p-4">
+                    <a href="/home/SeeProfile/+${follower.follower.id}"  class="flex items-center space-x-4">
+                        <img src="${follower.follower.image_path}" alt="Avatar" class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <h2 class="text-gray-800 font-semibold">${follower.follower.name}</h2>
+                            <p class="text-gray-500 text-sm">@${follower.follower.nickName}</p>
+                        </div>
+                    </a>
+                   
+                    <button
+                        class="follow-btn ${follower.follower.is_followed_by_auth_user ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-500 hover:bg-blue-600'} text-white px-4 py-1 rounded-lg shadow transition mt-2"
+                        data-user-id="${follower.follower.id}"
+                        >
+                        ${follower.follower.is_followed_by_auth_user ? 'Following' : 'Follow'}
+                    </button>
+                </div>
 
                 `;
             });
+            attachFollowButtonListeners();
         }
 
     })
@@ -70,20 +75,25 @@ window.loadFollowing = function(id){
                 console.log(follower);
                 followersList.innerHTML +=`
 
-                <a href="/home/SeeProfile/+${follower.followed.id}" class=" flex items-center justify-between bg-white shadow rounded-lg p-4">
-                    <div class="flex items-center space-x-4">
-                    <img src="${follower.followed.image_path}" alt="Avatar" class="w-10 h-10 rounded-full object-cover">
-                    <div>
-                        <h2 class="text-gray-800 font-semibold">${follower.followed.name}</h2>
-                        <p class="text-gray-500 text-sm">@${follower.followed.nickName}</p>
-                    </div>
-                    </div>
-                    <button class="${follower.followed.is_followed_by_auth_user ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-500 hover:bg-blue-600'} text-white px-4 py-1 rounded-lg shadow transition mt-2">
+                <div  class=" flex items-center justify-between bg-white shadow rounded-lg p-4">
+                    <a href="/home/SeeProfile/+${follower.followed.id}" class="flex items-center space-x-4">
+                        <img src="${follower.followed.image_path}" alt="Avatar" class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <h2 class="text-gray-800 font-semibold">${follower.followed.name}</h2>
+                            <p class="text-gray-500 text-sm">@${follower.followed.nickName}</p>
+                        </div>
+                    </a>
+                            
+                    <button
+                     class="follow-btn ${follower.followed.is_followed_by_auth_user ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-500 hover:bg-blue-600'} text-white px-4 py-1 rounded-lg shadow transition mt-2"
+                     data-user-id="${follower.followed.id}"
+                     >
                         ${follower.followed.is_followed_by_auth_user ? 'Following' : 'Follow'}
                     </button>
-                </a>
+                </div>
                 `;
             });
+            attachFollowButtonListeners();
         }
 
     })

@@ -238,38 +238,39 @@ document.querySelectorAll('.like-btn').forEach(btn => {
 
 // _____________ ToggleFollowUser ____________
 
-        const followBtn = document.getElementById('follow-btn') ;
-        if (followBtn) {
+   
+attachFollowButtonListeners();
 
-          followBtn.addEventListener('click', function(){
-              const userId = this.dataset.userId;
-              console.log(userId);
 
-              fetch(`/home/ToggleFollowUser/${userId}`,{
-                  method: "POST",
-                  headers:{
-                      'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                      'Accept': 'application/json',
-                      'Content-Type': 'application/json',
-                  }
-              })
-              .then(res => res.json())
-              .then(data =>{
-                  if (data.followed) {
-                      followBtn.classList.remove("bg-blue-500");
-                      followBtn.classList.add("bg-green-500");
-                      followBtn.textContent = "Following";
-                  } else {
-                      followBtn.classList.remove("bg-green-500");
-                      followBtn.classList.add("bg-blue-500");
-                      followBtn.textContent = "Follow";
-                  }
-              })
-              .catch(error =>{
-                  alert(error.message || 'Something went wrong');
-              });
+}); 
+window.attachFollowButtonListeners = function() {
+        document.querySelectorAll('.follow-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const userId = this.dataset.userId;
 
-          });
-      }
-
-});
+                fetch(`/home/ToggleFollowUser/${userId}`, {
+                    method: "POST",
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.followed) {
+                        this.classList.remove("bg-blue-500");
+                        this.classList.add("bg-green-500");
+                        this.textContent = "Following";
+                    } else {
+                        this.classList.remove("bg-green-500");
+                        this.classList.add("bg-blue-500");
+                        this.textContent = "Follow";
+                    }
+                })
+                .catch(error => {
+                    alert(error.message || 'Something went wrong');
+                });
+            });
+        });
+    }
