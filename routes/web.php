@@ -20,7 +20,9 @@ Route::post('/login', [AuthController ::class , 'login_post'])->name('login.post
 
 Route::get('/logout', [AuthController ::class , 'logout'])->name('logout');
 
-
+Route::get('/whoami', function () {
+    return auth()->user();
+});
 
 Route::middleware(['auth'])->prefix('home')->group(function(){
     
