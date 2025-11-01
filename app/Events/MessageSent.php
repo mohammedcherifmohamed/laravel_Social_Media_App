@@ -31,13 +31,11 @@ class MessageSent implements ShouldBroadcastNow
      *
      * @return array<int, \Illuminate\Broadcasting\Channel>
      */
-    public function broadcastOn(): array
+    public function broadcastOn()
     {
-        return [
-            new PresenceChannel('chat.online'),
-            new PrivateChannel('chat.' . $this->message->sender_id),
-            new PrivateChannel('chat.' . $this->message->reciever_id),
-        ];
+        return 
+            new PrivateChannel('chat.' . $this->message->reciever_id);
+
     }
 
     public function broadcastWith(){

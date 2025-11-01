@@ -27,7 +27,7 @@ window.openChat = function (id) {
         reciever_id.value = data.reciever_id;
 
         chat_receiver.innerHTML = "Chat With " + data.reciever_chat;
-        msgDiv.innerHTML = ''; // Clear previous messages
+        msgDiv.innerHTML = ''; 
         data.chat_messages.forEach(message => {
             msgDiv.innerHTML += `
                 <div class="flex justify-${message.sender_id === data.current_user ? 'end' : 'start'}">
@@ -69,22 +69,57 @@ window.sendMessage = function(event){
     .then(res => res.json())
     .then(data => {
         console.log('Message sent:', data);
-        form.message.value = ''; // Clear input
+                const msgDiv = document.getElementById('msg-div');
+
+         msgDiv.innerHTML += `
+                <div class="flex justify-end">
+                    <div class="max-w-[75%] px-4 py-2 rounded-xl text-sm
+                          bg-blue-500 text-white rounded-br-none">
+                          ${form.message.value}
+                    </div>
+                </div>
+            `;
+        // add scroll 
+        msgDiv.scrollTop = msgDiv.scrollHeight;
+        form.message.value = '';
     })
     .catch(err => {
         console.error('Failed to send message:', err);
     });
 }
+
+Echo.private(`chat.${USER_ID}`)
+.subscribed(()=> console.log(`subscribed user -${USER_ID}`))
+.error((err)=>console.log(err))
+        .listen("MessageSent",(e)=>{
+                console.log(e);
+                const msgDiv = document.getElementById('msg-div');
+                msgDiv.innerHTML += `
+                <div class="flex justify-start">
+                    <div class="max-w-[75%] px-4 py-2 rounded-xl text-sm
+                           bg-gray-300 text-black rounded-bl-none ">
+                          ${e.message}
+                    </div>
+                </div>
+            `;
+                    msgDiv.scrollTop = msgDiv.scrollHeight;
+
+
+
+
+});
+
+
 document.addEventListener('DOMContentLoaded', function () {
     const chatInput = document.getElementById('chatInput');
 if(chatInput){
 
-    chatInput.addEventListener('input', () => {
-        Echo.private('chat.' + CURRENT_CHAT_ID)
-        .whisper('typing', {
-            user_id: USER_ID,
-            user_name: USER_NAME,
-        });
-    });
+    // chatInput.addEventListener('input', () => {
+    //     Echo.private('chat.' + CURRENT_CHAT_ID)
+    //     .whisper('typing', {
+    //         user_id: USER_ID,
+    //         user_name: USER_NAME,
+    //     });
+    // });
 }
 });
