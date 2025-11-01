@@ -1,1 +1,4 @@
-hello test
+Uncaught Error: Pusher client not found. Should be globally available or passed via options.client at o.connect (laravel-echo.js?v=f90ea385:473:13) at new c2 (laravel-echo.js?v=f90ea385:417:30) at new o (laravel-echo.js?v=f90ea385:457:5) at E.connect (laravel-echo.js?v=f90ea385:733:24) at new E (laravel-echo.js?v=f90ea385:720:28) at echo.js:3:15
+
+import Pusher from 'pusher-js'; // ✅ must be imported
+npm install pusher-js

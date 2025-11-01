@@ -77,12 +77,14 @@ window.sendMessage = function(event){
 }
 document.addEventListener('DOMContentLoaded', function () {
     const chatInput = document.getElementById('chatInput');
+if(chatInput){
 
     chatInput.addEventListener('input', () => {
         Echo.private('chat.' + CURRENT_CHAT_ID)
-            .whisper('typing', {
-                user_id: USER_ID,
-                user_name: USER_NAME,
-            });
+        .whisper('typing', {
+            user_id: USER_ID,
+            user_name: USER_NAME,
+        });
     });
+}
 });

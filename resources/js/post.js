@@ -114,9 +114,13 @@ document.querySelectorAll('.like-btn').forEach(btn => {
                 });
             });
 
-            document.getElementById('close-comment-modal').addEventListener('click', () => {
-                document.getElementById('comment-modal').classList.add('hidden');
-            });
+            const closeBtn = document.getElementById('close-comment-modal');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    document.getElementById('comment-modal').classList.add('hidden');
+                });
+            }
+
             document.querySelectorAll('.comment-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.getElementById('comment-modal').classList.remove('hidden');

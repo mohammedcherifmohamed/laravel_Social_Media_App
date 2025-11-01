@@ -1,4 +1,4 @@
- console.log('hello');
+//  console.log('hello');
  
  
  window.toggleChatbar = function () {
@@ -15,6 +15,7 @@
 window.toggleDropdownSearchUsers = function () {
     document.getElementById("searchResultsModal").classList.toggle('hidden');
 }
+
 
 window.openModal = function (id) {
     document.getElementById(id).classList.remove('hidden');

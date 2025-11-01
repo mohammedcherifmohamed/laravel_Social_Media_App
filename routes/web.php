@@ -8,6 +8,24 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\FollowsController;
 use App\Http\Controllers\Comments;
 
+// for testing real app
+use App\Events\SendMsg;
+
+// ______ TESTING EBSOCKET
+
+Route::get('/test',function(){
+
+    $message = "Hello from Laravel Event Brodcasting";
+    broadcast(new SendMsg($message));
+    return "Message Brodcasted";
+});
+
+Route::get("/test2",function(){
+    return view("Listner");
+});
+
+
+// ______ TESTING EBSOCKET
 
 
 Route::get('/register', [AuthController ::class , 'load_register'])->name('register.load');
@@ -20,9 +38,9 @@ Route::post('/login', [AuthController ::class , 'login_post'])->name('login.post
 
 Route::get('/logout', [AuthController ::class , 'logout'])->name('logout');
 
-Route::get('/whoami', function () {
-    return auth()->user();
-});
+// Route::get('/whoami', function () {
+//     return auth()->user();
+// });
 
 Route::middleware(['auth'])->prefix('home')->group(function(){
     

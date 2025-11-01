@@ -48,7 +48,7 @@ public $isChatOpen = false;
 
     public function setReceiver($id)
     {
-        dd(id);
+        dd($id);
         $this->isChatOpen = true;
 
         $this->receiver_id = $id;

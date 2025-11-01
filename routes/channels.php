@@ -15,3 +15,8 @@ Broadcast::channel('chat.{id}', function ($user, $id) {
 Broadcast::channel('chat.online', function ($user) {
     return ['id' => $user->id, 'name' => $user->name];
 });
+Broadcast::channel('public-test', function () {
+
+    return true;    
+
+});
