@@ -1,3 +1,5 @@
+ console.log('Message Sent script');
+
 document.addEventListener('DOMContentLoaded', function () {
     Echo.private('chat.' + USER_ID)
         .listen('MessageSent', (e) => {

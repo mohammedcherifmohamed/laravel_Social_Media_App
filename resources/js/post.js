@@ -1,4 +1,6 @@
- document.addEventListener('DOMContentLoaded', function () {
+ console.log('posts script');
+
+document.addEventListener('DOMContentLoaded', function () {
   console.log('hello');
 
   // __________ TOGGLE LIKE _______________
@@ -6,12 +8,12 @@
 document.querySelectorAll('.like-btn').forEach(btn => {
         btn.addEventListener('click', function (e) {
             e.preventDefault();
-            console.log("button clicked");
+            // console.log("button clicked");
 
             const postId = this.dataset.postId;
             const toggleLikeUrl = this.dataset.url;
 
-            console.log("button clicked " + postId);
+            // console.log("button clicked " + postId);
 
             const icon = this.querySelector('i');
             const countSpan = this.querySelector('.like-count');

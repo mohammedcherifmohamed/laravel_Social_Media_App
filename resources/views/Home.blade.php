@@ -109,7 +109,7 @@
         </div>
 
         <!-- Input Form -->
-        <div id="typing-indicator" class="text-sm text-gray-500 mt-2 ml-2"></div>
+        <div id="typing-indicator" class="text-sm text-gray-500 mt-2 ml-2 hidden">is typing</div>
 
         <form onsubmit="sendMessage(event)" class="flex items-center border-t px-4 py-2 gap-2 bg-white sticky bottom-0 z-10">
           @csrf  
@@ -150,3 +150,4 @@
     let CURRENT_CHAT_ID = null;
 </script>
 @endsection
+

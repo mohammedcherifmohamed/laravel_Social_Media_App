@@ -1,3 +1,4 @@
+ console.log('chat script');
 
 // toggleChatBox(this)
 
@@ -88,7 +89,7 @@ window.sendMessage = function(event){
     });
 }
 
-Echo.private(`chat.${USER_ID}`)
+window.Echo.private(`chat.${USER_ID}`)
 .subscribed(()=> console.log(`subscribed user -${USER_ID}`))
 .error((err)=>console.log(err))
         .listen("MessageSent",(e)=>{
@@ -103,23 +104,34 @@ Echo.private(`chat.${USER_ID}`)
                 </div>
             `;
                     msgDiv.scrollTop = msgDiv.scrollHeight;
+})
+.listenForWhisper("typing",(e)=>{
+    const typing_indicator = document.getElementById('typing-indicator');
+    if(typing_indicator){
 
+        typing_indicator.classList.remove('hidden');
+        setTimeout(()=>{
+            typing_indicator.classList.add('hidden');
+        }, 1500);
 
-
-
+    }
 });
 
 
 document.addEventListener('DOMContentLoaded', function () {
     const chatInput = document.getElementById('chatInput');
+
 if(chatInput){
 
-    // chatInput.addEventListener('input', () => {
-    //     Echo.private('chat.' + CURRENT_CHAT_ID)
-    //     .whisper('typing', {
-    //         user_id: USER_ID,
-    //         user_name: USER_NAME,
-    //     });
-    // });
+    chatInput.addEventListener("input",()=>{
+        const reciever_id = document.getElementById('reciever_id');
+        console.log("typing... " + reciever_id.value);
+        window.Echo.private(`chat.${reciever_id.value}`)
+        .whisper("typing",{
+            userId: USER_ID ,
+            name: '{{ auth()->user()->name }}',
+        });
+    });
+   
 }
 });
