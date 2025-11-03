@@ -96,7 +96,7 @@ window.Echo.private(`chat.${USER_ID}`)
 .subscribed(()=> console.log(`subscribed user -${USER_ID}`))
 .error((err)=>console.log(err))
         .listen("MessageSent",(e)=>{
-                console.log(e);
+                // console.log("____"+e.sender_name);
                 const msgDiv = document.getElementById('msg-div');
                 msgDiv.innerHTML += `
                 <div class="flex justify-start">
@@ -106,7 +106,9 @@ window.Echo.private(`chat.${USER_ID}`)
                     </div>
                 </div>
             `;
-                    msgDiv.scrollTop = msgDiv.scrollHeight;
+            msgDiv.scrollTop = msgDiv.scrollHeight;
+            updateNotification(e.sender_name,e.created_at);
+              
 })
 .listenForWhisper("typing",(e)=>{
     const typing_indicator = document.getElementById('typing-indicator');
@@ -122,21 +124,45 @@ window.Echo.private(`chat.${USER_ID}`)
 let onlineUsers = [];
 window.Echo.join('presence.online')
 .here((users)=>{
-    console.log("Onlie Users : __" + users.length);
+    // console.log("Onlie Users : __" + users.length);
     onlineUsers = users;
     updateOnlineStatus();
 })
 .joining((user)=>{
-    console.log(user.name + " joined.");
+    // console.log(user.name + " joined.");
     onlineUsers.push(user);
     updateOnlineStatus();
 })
 .leaving((user)=>{
     console.log(user.name + " left."+user.id);
     onlineUsers = onlineUsers.filter(u => u.id !== user.id);
-    console.log(onlineUsers.length + " users online now.");
+    // console.log(onlineUsers.length + " users online now.");
     updateOnlineStatus();
 })
+function updateNotification(senderName,time){
+
+     const notification_icon = document.getElementById('notification_icon');
+     const notificationsList = document.getElementById('notificationsList');
+        let notificationsNbr = notificationsList.children.length;
+
+        if(notification_icon){
+            notification_icon.classList.remove('hidden');
+            notificationsNbr++ ;
+            notification_icon.innerText = notificationsNbr;
+        } 
+
+        
+        notificationsList.innerHTML +=`
+            <div class="p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition">
+                <p class="text-gray-800 text-sm">${senderName} sent you a message</p>
+                <span class="text-xs text-gray-500">${time}</span>
+            </div>
+        `;
+
+
+
+}
+
 function updateOnlineStatus(){
     
     // update status for online users
@@ -152,11 +178,32 @@ function updateOnlineStatus(){
                 element.classList.remove('hidden');
             }
         });
-
         // console.log("Checking online status for user id: " + online_user_id);
     });
 }
 
+window.seeNotifications = function() {
+
+     const modal = document.getElementById("notificationsModal");
+    const sidebar = document.getElementById("notificationsSidebar");
+
+    modal.classList.remove("hidden");
+
+    setTimeout(() => {
+        sidebar.classList.remove("translate-x-full");
+    }, 10);
+
+}
+
+window.closeNotifications = function() {
+
+    const modal = document.getElementById("notificationsModal");
+    const sidebar = document.getElementById("notificationsSidebar");
+    sidebar.classList.add("translate-x-full");
+    setTimeout(() => {
+        modal.classList.add("hidden");
+    }, 300);
+}
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -165,17 +212,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const chatInput = document.getElementById('chatInput');
 
-if(chatInput){
+    if(chatInput){
 
-    chatInput.addEventListener("input",()=>{
-        const reciever_id = document.getElementById('reciever_id');
-        console.log("typing... " + reciever_id.value);
-        window.Echo.private(`chat.${reciever_id.value}`)
-        .whisper("typing",{
-            userId: USER_ID ,
-            name: '{{ auth()->user()->name }}',
+        chatInput.addEventListener("input",()=>{
+            const reciever_id = document.getElementById('reciever_id');
+            console.log("typing... " + reciever_id.value);
+            window.Echo.private(`chat.${reciever_id.value}`)
+            .whisper("typing",{
+                userId: USER_ID ,
+                name: '{{ auth()->user()->name }}',
+            });
         });
-    });
-   
-}
+    
+    }
+
 });

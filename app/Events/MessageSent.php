@@ -16,14 +16,17 @@ class MessageSent implements ShouldBroadcastNow
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $message;
-
+    public $senderName;
+    public $receiverName;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($message)
+    public function __construct($message,$senderName,$receiverName)
     {
         $this->message = $message ;
+        $this->senderName = $senderName;
+        $this->receiverName = $receiverName;
     }
 
     /**
@@ -43,6 +46,8 @@ class MessageSent implements ShouldBroadcastNow
             'sender_id' => $this->message->sender_id,
             'reciever_id' => $this->message->reciever_id,
             'message' => $this->message->message,
+            'sender_name' => $this->senderName,
+            'receiver_name' => $this->receiverName,
             'created_at' => $this->message->created_at->toDateTimeString(),
         ];
     }

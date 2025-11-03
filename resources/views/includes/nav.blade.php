@@ -17,9 +17,9 @@
         </div>
 
         <div class="flex items-center space-x-4">
-          <button class="relative">
+          <button  onclick="seeNotifications()" class="relative">
             <svg class="h-6 w-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1">3</span>
+            <span id="notification_icon" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1 hidden">1</span>
           </button>
           <button>
             <svg class="h-6 w-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h12a2 2 0 012 2z"/></svg>
@@ -39,6 +39,8 @@
       </div>
     </div>
   </nav>
+
+
 
 <!-- Centered Search Modal (Input + Results) -->
 <div id="searchResultsModal" class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50 hidden">
@@ -69,3 +71,23 @@
 </div>
 
 
+<!-- Notifications Sidebar -->
+<div id="notificationsModal" 
+     class="fixed inset-0 bg-black bg-opacity-30 hidden z-50">
+  
+  <!-- Sidebar Container -->
+  <div class="absolute right-0 top-0 h-full w-80 bg-white shadow-xl transform translate-x-full transition-transform duration-300 ease-in-out" id="notificationsSidebar">
+    <div class="flex justify-between items-center p-4 border-b">
+      <h2 class="text-xl font-semibold text-gray-800">Notifications</h2>
+      <button onclick="closeNotifications()" class="text-gray-400 hover:text-red-500 text-2xl">
+        <i class="fa-solid fa-rectangle-xmark"></i>
+      </button>
+    </div>
+
+    <!-- Notification List -->
+    <div id="notificationsList" class="p-4 space-y-3 overflow-y-auto h-[calc(100%-4rem)]">
+      <!-- Notifications will be injected here -->
+      
+    </div>
+  </div>
+</div>

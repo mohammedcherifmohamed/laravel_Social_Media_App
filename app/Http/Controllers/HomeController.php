@@ -191,8 +191,9 @@ public function ToggleFollowUser($id){
             'reciever_id' =>  $req->reciever_id,
             'message' => $req->message
         ]);
-        
-        broadcast(new MessageSent($message));
+         $senderName = auth()->user()->name;
+      $receiverName = User::find($req->reciever_id)->name;
+        broadcast(new MessageSent($message,$senderName,$receiverName));
         return response()->json([
             'success' => true ,
             'message' => $message
