@@ -29,7 +29,7 @@ class HomeController extends Controller{
                     ->with('followed')
                     ->get()
                     ->pluck('followed');
-
+            // dd($followedUsers);
         return view("Home",compact('posts','followedUsers')) ;
     }
 

@@ -20,9 +20,12 @@ window.openChat = function (id) {
     })
     .then(res => res.json())
     .then(data => {
-        console.log('Conversation data:', data);
+        // console.log('Conversation data:', data);
         const msgDiv = document.getElementById('msg-div');
         const chat_receiver = document.getElementById('chat-receiver');
+
+        const typer  = document.getElementById('typing-indicator');
+        typer.innerHTML = ` ${data.reciever_chat} is typing...`;
 
         const reciever_id = document.getElementById('reciever_id');
         reciever_id.value = data.reciever_id;
@@ -116,9 +119,50 @@ window.Echo.private(`chat.${USER_ID}`)
 
     }
 });
+let onlineUsers = [];
+window.Echo.join('presence.online')
+.here((users)=>{
+    console.log("Onlie Users : __" + users.length);
+    onlineUsers = users;
+    updateOnlineStatus();
+})
+.joining((user)=>{
+    console.log(user.name + " joined.");
+    onlineUsers.push(user);
+    updateOnlineStatus();
+})
+.leaving((user)=>{
+    console.log(user.name + " left."+user.id);
+    onlineUsers = onlineUsers.filter(u => u.id !== user.id);
+    console.log(onlineUsers.length + " users online now.");
+    updateOnlineStatus();
+})
+function updateOnlineStatus(){
+    
+    // update status for online users
+    const online_users_spans  = document.querySelectorAll('.online_users');
+    online_users_spans.forEach(el => el.classList.add('hidden'));
+    // console.log("Total online users elements: " + online_users_spans.length);
+    online_users_spans.forEach(element => {
+        const online_user_id = element.getAttribute("data-user-id");
+        // console.log("Total online users in global array: " + onlineUsers.length);
+        onlineUsers.forEach(user => {
+            // console.log(user.id + " == " + online_user_id);
+            if(user.id == online_user_id){
+                element.classList.remove('hidden');
+            }
+        });
+
+        // console.log("Checking online status for user id: " + online_user_id);
+    });
+}
+
 
 
 document.addEventListener('DOMContentLoaded', function () {
+    
+   
+
     const chatInput = document.getElementById('chatInput');
 
 if(chatInput){

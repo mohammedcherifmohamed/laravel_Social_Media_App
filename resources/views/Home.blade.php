@@ -66,20 +66,13 @@
               <a href="{{ route('profile.see', $follows->id) }}">
                 <div class="relative">
                   <img src="{{ Storage::url($follows->image_path) }}" class="cursor-pointer h-10 w-10 rounded-full object-cover border-2 border-blue-400"/>
-                  @if($follows->is_online)
-                    <span class="absolute bottom-0 right-0 h-3 w-3 bg-green-500 border-2 border-white rounded-full"></span>
-                  @else
-                    <span class="absolute bottom-0 right-0 h-3 w-3 bg-gray-300 border-2 border-white rounded-full"></span>
-                  @endif
                 </div>
+                <span data-user-id="{{ $follows->id }}" id="online-{{ $follows->id }}" class="online_users ml-1 text-green-500 hidden">• online</span>
               </a>
               <div onclick="openChat({{ $follows->id }})" class="cursor-pointer">
-                <div class="font-medium">@ {{ $follows->name }}</div>
+                <div class="font-medium">@_ {{ $follows->name }}</div>
                 <div class="text-xs text-gray-400">
                   {{ $follows->nickName }}
-                  @if($follows->is_online)
-                    <span class="ml-1 text-green-500">• Online</span>
-                  @endif
                 </div>
               </div>
             </li>
@@ -109,7 +102,7 @@
         </div>
 
         <!-- Input Form -->
-        <div id="typing-indicator" class="text-sm text-gray-500 mt-2 ml-2 hidden">is typing</div>
+        <div id="typing-indicator" class="text-sm text-gray-500 mt-2 ml-2 hidden"></div>
 
         <form onsubmit="sendMessage(event)" class="flex items-center border-t px-4 py-2 gap-2 bg-white sticky bottom-0 z-10">
           @csrf  
