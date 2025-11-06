@@ -186,6 +186,9 @@ window.seeNotifications = function() {
 
      const modal = document.getElementById("notificationsModal");
     const sidebar = document.getElementById("notificationsSidebar");
+    const notification_icon = document.getElementById('notification_icon');
+    notification_icon.innerHTML = "0" ;
+    notification_icon.classList.add("hidden");
 
     modal.classList.remove("hidden");
 

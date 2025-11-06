@@ -24,6 +24,8 @@ class HomeController extends Controller{
         $posts = PostsModel::with('user', 'likes')
             ->whereIn('user_id', $followedUserIds)
             ->orderBy('id', 'desc')
+            ->with("comments")
+             ->withCount('likes') 
             ->get();
               $followedUsers = follows::where('follower_id', auth()->id())
                     ->with('followed')
@@ -34,11 +36,12 @@ class HomeController extends Controller{
     }
 
     public function loadExplore(){
-         $posts = PostsModel::with('user', 'likes')
+         $posts = PostsModel::with('user:id,name,image_path')
                 ->orderBy('id', 'desc')
+                 ->withCount('likes')
                 ->get();
                  $followedUsers = follows::where('follower_id', auth()->id())
-                    ->with('followed') // assuming relation is defined
+                    ->with('followed')
                     ->get()
                     ->pluck('followed');
         return view("Home",compact('posts','followedUsers')) ;
@@ -204,6 +207,7 @@ public function ToggleFollowUser($id){
 
     public function getPosts(){
         $posts = Posts::wher('user_id',auth()->id())
+            ->withCount('likes') 
             ->with('user', 'likes')
             ->orderBy('id', 'desc')
             ->get();

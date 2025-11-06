@@ -4,3 +4,7 @@ import Pusher from 'pusher-js'; // ✅ must be imported
 npm install pusher-js
 
 Presence channels must start with presence- prefix and be authorized in Laravel’s routes/channels.php.
+
+
+composer require barryvdh/laravel-debugbar --dev
+barryvdh\debugbar\ServiceProvider::class

@@ -26,7 +26,7 @@
               
             >
             <i class="{{ $liked ? 'fa-solid text-red-600' : 'fa-regular' }} fa-heart"></i>
-            {{-- <span class="like-count">{{ $post->likes->count() }}</span> --}}
+            <span class="like-count">{{ $post->likes_count }}</span>
 
             </button>
             
@@ -35,7 +35,7 @@
               class="comment-btn flex items-center space-x-1 hover:text-blue-500"
               data-post-id="{{$post->id}}"
              >
-              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V10a2 2 0 012-2h2"/></svg><span>5</span>
+              <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V10a2 2 0 012-2h2"/></svg><span>{{$post->comments->count()}}</span>
             </button>
           </div>
           <div class="border-t pt-2">

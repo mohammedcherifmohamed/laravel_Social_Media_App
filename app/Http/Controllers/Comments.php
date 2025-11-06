@@ -23,10 +23,11 @@
 
         public function get_comments($id){
             
-            $comments = Commentmodel::where('post_id',$id)->with('user')->get();
+            $comments = Commentmodel::where('post_id',$id)->with('user')->paginate(10);  
             return response()->json([
                 "success" => true ,
-                "data" => $comments
+                'data' => $comments->items(),  
+                'next_page_url' => $comments->nextPageUrl(), 
             ]);
         }
         

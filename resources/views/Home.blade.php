@@ -70,7 +70,7 @@
                 <span data-user-id="{{ $follows->id }}" id="online-{{ $follows->id }}" class="online_users ml-1 text-green-500 hidden">• online</span>
               </a>
               <div onclick="openChat({{ $follows->id }})" class="cursor-pointer">
-                <div class="font-medium">@_ {{ $follows->name }}</div>
+                <div class="font-medium">@ {{ $follows->name }}</div>
                 <div class="text-xs text-gray-400">
                   {{ $follows->nickName }}
                 </div>

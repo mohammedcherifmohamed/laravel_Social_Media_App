@@ -136,54 +136,117 @@ document.querySelectorAll('.like-btn').forEach(btn => {
         element.addEventListener('click', function () {
             const postId = element.dataset.postId;
             console.log('post Id : ' + postId);
-            const commentUrl = `${window.commentBaseRoute}/${postId}`; // construct full URL
+            loadComments(postId);
+        //     const commentUrl = `${window.commentBaseRoute}/${postId}`; // construct full URL
 
-            fetch(commentUrl, {
-                method: 'GET',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                }
-            })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                if (data.success) {
-                    console.log('Comment fetched successfully');
-                    const commentList = document.getElementById('comment-list');
-                    commentList.innerHTML = ''; 
+        //     fetch(commentUrl, {
+        //         method: 'GET',
+        //         headers: {
+        //             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+        //             'Accept': 'application/json',
+        //             'Content-Type': 'application/json',
+        //         }
+        //     })
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         console.log(data);
+        //         if (data.success) {
+        //             console.log('Comment fetched successfully');
+        //             const commentList = document.getElementById('comment-list');
+        //             commentList.innerHTML = ''; 
 
-                    data.data.forEach(comment => {
-                        const commentHTML = `
-                            <a href="/home/SeeProfile/${comment.user.id}" class="flex items-start space-x-3 bg-gray-50 p-2 rounded-lg">
-                                <img src="/storage/${comment.user.image_path ?? 'default.jpg'}" class="w-8 h-8 rounded-full object-cover" alt="User Image" />
-                                <div>
-                                    <div class="text-sm font-semibold text-gray-800">
-                                        ${comment.user.name}
-                                        <span class="text-xs text-gray-400 ml-2">${new Date(comment.created_at).toLocaleString()}</span>
-                                    </div>
-                                    <div class="text-sm text-gray-700">
-                                        ${comment.content}
-                                    </div>
-                                </div>
-                            </a>
-                        `;
-                        commentList.insertAdjacentHTML('beforeend', commentHTML);
-                    });
+        //             data.data.forEach(comment => {
+        //                 const commentHTML = `
+        //                     <a href="/home/SeeProfile/${comment.user.id}" class="flex items-start space-x-3 bg-gray-50 p-2 rounded-lg">
+        //                         <img src="/storage/${comment.user.image_path ?? 'default.jpg'}" class="w-8 h-8 rounded-full object-cover" alt="User Image" />
+        //                         <div>
+        //                             <div class="text-sm font-semibold text-gray-800">
+        //                                 ${comment.user.name}
+        //                                 <span class="text-xs text-gray-400 ml-2">${new Date(comment.created_at).toLocaleString()}</span>
+        //                             </div>
+        //                             <div class="text-sm text-gray-700">
+        //                                 ${comment.content}
+        //                             </div>
+        //                         </div>
+        //                     </a>
+        //                 `;
+        //                 commentList.insertAdjacentHTML('beforeend', commentHTML);
+        //             });
 
-                    document.getElementById('comment-modal').classList.remove('hidden');
+        //             document.getElementById('comment-modal').classList.remove('hidden');
 
-                } else {
-                    alert(data.message || 'Something went wrong');
-                }
-            })
-            .catch(error => {
-                alert('An error occurred while fetching the comment');
-                console.error(error);
-            });
+        //         } else {
+        //             alert(data.message || 'Something went wrong');
+        //         }
+        //     })
+        //     .catch(error => {
+        //         alert('An error occurred while fetching the comment');
+        //         console.error(error);
+        //     });
         });
       });
+
+      const commentListContainer = document.getElementById('comment-list');
+
+commentListContainer.addEventListener('scroll', () => {
+    // check if scroll reached near bottom
+    if (commentListContainer.scrollTop + commentListContainer.clientHeight >= commentListContainer.scrollHeight - 50) {
+        loadComments(commentListContainer.dataset.postId);
+    }
+});
+
+let nextPage = 1;
+let loading = false;
+let currentPostId = null;
+
+
+      function loadComments(postId) {
+       
+        if (loading || !nextPage) return;
+        loading = true;
+        
+    const commentUrl = `${window.commentBaseRoute}/${postId}?page=${nextPage}`;
+
+    fetch(commentUrl, {
+        method: 'GET',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            const commentList = document.getElementById('comment-list');
+
+            // append comments to the list
+            data.data.forEach(comment => {
+                const html = `
+                    <a href="/home/SeeProfile/${comment.user.id}" class="flex items-start space-x-3 bg-gray-50 p-2 rounded-lg">
+                        <img src="/storage/${comment.user.image_path ?? 'default.jpg'}" class="w-8 h-8 rounded-full object-cover" />
+                        <div>
+                            <div class="text-sm font-semibold text-gray-800">
+                                ${comment.user.name}
+                                <span class="text-xs text-gray-400 ml-2">${new Date(comment.created_at).toLocaleString()}</span>
+                            </div>
+                            <div class="text-sm text-gray-700">
+                                ${comment.content}
+                            </div>
+                        </div>
+                    </a>
+                `;
+                commentList.insertAdjacentHTML('beforeend', html);
+            });
+
+            // increment page number
+            nextPage++;
+            if (!data.next_page_url) nextPage = null; // no more pages
+        }
+    })
+    .catch(console.error)
+    .finally(() => loading = false);
+}
 
 
 //  ______________ SEARCH USERS __________
