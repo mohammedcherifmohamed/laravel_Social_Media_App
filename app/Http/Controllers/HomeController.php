@@ -72,18 +72,21 @@ class HomeController extends Controller{
         return view('profile',compact('posts','user','follows'))  ;
     }
 
-    public function searchUsers(Request $req){
+   public function searchUsers(Request $req)
+{
+    $query = $req->query('query');
+    
+    $users = User::where('name', 'like', "%$query%")
+        ->select('id', 'name', 'image_path', 'nickName')
+        ->paginate(6);
 
-        $query = $req->query('query');
-       $users =  User::where('name', 'like' , "%$query%" )
-        ->select('id','name','image_path','nickName')
-        ->get();
+    return response()->json([
+        "success" => true,
+        "data" => $users->items(),
+        "next_page_url" => $users->nextPageUrl()
+    ]);
+}
 
-        return response()->json([
-                "success" => true ,
-                "data" => $users
-        ]) ;
-    }
 
 
 public function ToggleFollowUser($id){

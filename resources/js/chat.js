@@ -10,7 +10,12 @@ window.openChat = function (id) {
         CURRENT_CHAT_ID = id;
     const chatBox = document.querySelector('#chat-box');
     chatBox.classList.remove('hidden');
-    
+    const modal = document.getElementById("notificationsModal");
+    if(modal){
+        modal.classList.add("hidden");
+
+    }
+
     fetch('/home/chatWith/'+id ,{
         method: 'GET',
         headers: {
@@ -107,7 +112,11 @@ window.Echo.private(`chat.${USER_ID}`)
                 </div>
             `;
             msgDiv.scrollTop = msgDiv.scrollHeight;
-            updateNotification(e.sender_name,e.created_at);
+            // parse receiver id
+
+            const senderId = parseInt(e.sender_id);
+            console.log(typeof senderId + " -- " + senderId); 
+            updateNotification(senderId,e.sender_name,e.created_at);
               
 })
 .listenForWhisper("typing",(e)=>{
@@ -139,7 +148,7 @@ window.Echo.join('presence.online')
     // console.log(onlineUsers.length + " users online now.");
     updateOnlineStatus();
 })
-function updateNotification(senderName,time){
+function updateNotification(senderId,senderName,time){
 
      const notification_icon = document.getElementById('notification_icon');
      const notificationsList = document.getElementById('notificationsList');
@@ -156,6 +165,7 @@ function updateNotification(senderName,time){
             <div class="p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition">
                 <p class="text-gray-800 text-sm">${senderName} sent you a message</p>
                 <span class="text-xs text-gray-500">${time}</span>
+                <button class="text-xs text-blue-500" onclick="openChat(${senderId})">See message</button>
             </div>
         `;
 
@@ -184,7 +194,7 @@ function updateOnlineStatus(){
 
 window.seeNotifications = function() {
 
-     const modal = document.getElementById("notificationsModal");
+    const modal = document.getElementById("notificationsModal");
     const sidebar = document.getElementById("notificationsSidebar");
     const notification_icon = document.getElementById('notification_icon');
     notification_icon.innerHTML = "0" ;
@@ -208,11 +218,7 @@ window.closeNotifications = function() {
     }, 300);
 }
 
-
 document.addEventListener('DOMContentLoaded', function () {
-    
-   
-
     const chatInput = document.getElementById('chatInput');
 
     if(chatInput){

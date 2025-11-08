@@ -187,13 +187,14 @@ document.querySelectorAll('.like-btn').forEach(btn => {
       });
 
       const commentListContainer = document.getElementById('comment-list');
-
-commentListContainer.addEventListener('scroll', () => {
-    // check if scroll reached near bottom
-    if (commentListContainer.scrollTop + commentListContainer.clientHeight >= commentListContainer.scrollHeight - 50) {
-        loadComments(commentListContainer.dataset.postId);
-    }
-});
+if(commentListContainer){
+    commentListContainer.addEventListener('scroll', () => {
+        // check if scroll reached near bottom
+        if (commentListContainer.scrollTop + commentListContainer.clientHeight >= commentListContainer.scrollHeight - 50) {
+            loadComments(commentListContainer.dataset.postId);
+        }
+    });
+}
 
 let nextPage = 1;
 let loading = false;
@@ -252,56 +253,80 @@ let currentPostId = null;
 //  ______________ SEARCH USERS __________
 
     // const searchInput = document.getElementById('searchResultsList');
-    const searchInput = document.getElementById('searchinput');
-
     
-    searchInput.addEventListener('input', function () {
-        const query = searchInput.value.trim();
-        if (query === '') {
-                document.getElementById('searchResultsList').innerHTML = ''; // clear results
-                return; // stop the request
+    let searchNextPage = 1;
+let searchLoading = false;
+let lastSearchQuery = '';
+
+const searchResultsList = document.getElementById('searchResultsList');
+const searchInput = document.getElementById('searchinput');
+
+searchInput.addEventListener('input', function () {
+    const query = searchInput.value.trim();
+    if (query === '') {
+        searchResultsList.innerHTML = '';
+        lastSearchQuery = '';
+        return;
+    }
+
+    // Reset pagination when new query typed
+    if (query !== lastSearchQuery) {
+        searchNextPage = 1;
+        searchResultsList.innerHTML = '';
+        lastSearchQuery = query;
+    }
+
+    loadSearchResults(query);
+});
+
+function loadSearchResults(query) {
+    if (searchLoading || !searchNextPage) return;
+    searchLoading = true;
+
+    fetch(`/home/searchUsers?query=${encodeURIComponent(query)}&page=${searchNextPage}`, {
+        method: "GET",
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
         }
-        
-        fetch(`/home/searchUsers?query=${encodeURIComponent(query)}`,{
-            method:"GET",
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            }
-        })
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
-            if (data.success) {
-                console.log('Comment fetched successfully');
-                const searchResultsList = document.getElementById('searchResultsList');
-                searchResultsList.innerHTML = ''; 
-
-                data.data.forEach(user =>{
-
-                    searchResultsList.innerHTML += `
-                        <a href="${window.profileRoute}/${user.id}" class="flex items-center space-x-3 hover:bg-gray-50 p-2 rounded-lg transition">
-                            <img src="/storage/${user.image_path}" class="w-10 h-10 rounded-full object-cover border-2 border-blue-500" alt="User 1" />
-                            <div>
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            data.data.forEach(user => {
+                searchResultsList.insertAdjacentHTML('beforeend', `
+                    <a href="${window.profileRoute}/${user.id}" 
+                       class="flex items-center space-x-3 hover:bg-gray-50 p-2 rounded-lg transition">
+                        <img src="/storage/${user.image_path ?? 'default.jpg'}"
+                             class="w-10 h-10 rounded-full object-cover border-2 border-blue-500" />
+                        <div>
                             <div class="font-semibold text-gray-800">@${user.name}</div>
-                            <div class="text-sm text-gray-500">${user.nickName}</div>
-                            </div>
-                        </a>
-                    
-                    `;
-                });
-            }else{
-                alert(data.message || 'Something went wrong');
+                            <div class="text-sm text-gray-500">${user.nickName ?? ''}</div>
+                        </div>
+                    </a>
+                `);
+            });
+            searchNextPage = data.next_page_url ? searchNextPage + 1 : null;
+        } else {
+            console.warn(data.message || 'Search failed');
+        }
+    })
+    .finally(() => searchLoading = false);
+}
 
-            }
-           })
-           .catch(error => {
-            alert('An error occurred while Searching for Users');
+// Add scroll listener for infinite scroll
+searchResultsList.addEventListener('scroll', function () {
+    if (
+        searchResultsList.scrollTop + searchResultsList.clientHeight >=
+        searchResultsList.scrollHeight - 30
+    ) {
+        if (lastSearchQuery) {
+            loadSearchResults(lastSearchQuery);
+        }
+    }
+});
 
-           });
-        console.log(searchInput.value);
-    });
     
 
 

@@ -42,6 +42,8 @@ Route::get('/logout', [AuthController ::class , 'logout'])->name('logout');
 //     return auth()->user();
 // });
 
+Route::Redirect("/","/home");
+
 Route::middleware(['auth'])->prefix('home')->group(function(){
     
     Route::get('/', [HomeController ::class , 'load_home'])->name('home.load');
