@@ -1,4 +1,4 @@
- console.log('profile script');
+//  console.log('profile script');
 
 window.loadFollowers = function(id){
  fetch('/home/getFollowers/'+id,{

@@ -22,3 +22,10 @@ Broadcast::channel('public-test', function () {
     return true;    
 
 });
+
+Broadcast::channel('notifications.{id}', function ($user,$id) {
+
+      return (int)$id === (int)$user->id;
+   
+
+});

@@ -1,4 +1,4 @@
- console.log('chat script');
+//  console.log('chat script');
 
 // toggleChatBox(this)
 
@@ -53,7 +53,7 @@ window.openChat = function (id) {
         console.error('Error fetching conversation:', err);
     })
     
-    console.log(id);
+    // console.log(id);
 
 }
 
@@ -77,7 +77,7 @@ window.sendMessage = function(event){
     })
     .then(res => res.json())
     .then(data => {
-        console.log('Message sent:', data);
+        // console.log('Message sent:', data);
                 const msgDiv = document.getElementById('msg-div');
 
          msgDiv.innerHTML += `
@@ -88,7 +88,6 @@ window.sendMessage = function(event){
                     </div>
                 </div>
             `;
-        // add scroll 
         msgDiv.scrollTop = msgDiv.scrollHeight;
         form.message.value = '';
     })
@@ -112,10 +111,7 @@ window.Echo.private(`chat.${USER_ID}`)
                 </div>
             `;
             msgDiv.scrollTop = msgDiv.scrollHeight;
-            // parse receiver id
-
             const senderId = parseInt(e.sender_id);
-            console.log(typeof senderId + " -- " + senderId); 
             updateNotification(senderId,e.sender_name,e.created_at);
               
 })
@@ -159,7 +155,6 @@ function updateNotification(senderId,senderName,time){
             notificationsNbr++ ;
             notification_icon.innerText = notificationsNbr;
         } 
-
         
         notificationsList.innerHTML +=`
             <div class="p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition">
@@ -169,13 +164,10 @@ function updateNotification(senderId,senderName,time){
             </div>
         `;
 
-
-
 }
 
 function updateOnlineStatus(){
     
-    // update status for online users
     const online_users_spans  = document.querySelectorAll('.online_users');
     online_users_spans.forEach(el => el.classList.add('hidden'));
     // console.log("Total online users elements: " + online_users_spans.length);
@@ -225,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         chatInput.addEventListener("input",()=>{
             const reciever_id = document.getElementById('reciever_id');
-            console.log("typing... " + reciever_id.value);
+            // console.log("typing... " + reciever_id.value);
             window.Echo.private(`chat.${reciever_id.value}`)
             .whisper("typing",{
                 userId: USER_ID ,

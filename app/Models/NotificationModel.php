@@ -12,5 +12,5 @@ class NotificationModel extends Model
         "sender_id",
         "receiver_id",
         "is_read"
-    ]
+    ];
 }

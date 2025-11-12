@@ -7,6 +7,7 @@ use App\Http\Controllers\PostsController ;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\FollowsController;
 use App\Http\Controllers\Comments;
+use App\Http\Controllers\NotificationsController;
 
 // for testing real app
 use App\Events\SendMsg;
@@ -62,6 +63,8 @@ Route::middleware(['auth'])->prefix('home')->group(function(){
     Route::get('/getFollowers/{id}',[FollowsController::class,"getFollowers"])->name("followers.get");
     Route::get('/getFollowing/{id}',[FollowsController::class,"getFollowing"])->name("following.get");
     Route::get('/getPosts/{id}',[FollowsController::class,"getPosts"])->name("posts.get");
+
+    Route::get('/notifications/push',[NotificationsController::class,"push"])->name("notifications.push");
     
 });
 

@@ -1,7 +1,7 @@
- console.log('posts script');
+//  console.log('posts script');
 
 document.addEventListener('DOMContentLoaded', function () {
-  console.log('hello');
+//   console.log('hello');
 
   // __________ TOGGLE LIKE _______________
  
@@ -356,6 +356,8 @@ window.attachFollowButtonListeners = function() {
                         this.classList.remove("bg-blue-500");
                         this.classList.add("bg-green-500");
                         this.textContent = "Following";
+                        // add here Notification event 
+
                     } else {
                         this.classList.remove("bg-green-500");
                         this.classList.add("bg-blue-500");

@@ -1,4 +1,4 @@
- console.log('home script');
+//  console.log('home script');
  
  
  window.toggleChatbar = function () {

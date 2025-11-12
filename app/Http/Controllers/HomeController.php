@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Events\MessageSent;
+use App\Events\NotificationEvent ;
 
 
 class HomeController extends Controller{
@@ -109,6 +110,15 @@ public function ToggleFollowUser($id){
             "follower_id" => auth()->id(),
             "followed_id" => $id,
         ]);
+        // create notification for followed user 
+        broadcast(new NotificationEvent(
+            "follow",
+            "someone followed you",
+            [
+            "follower_id" => 12,
+            "followed_id" => $id,
+           ]
+        ) ) ;
 
         return response()->json([
             "created" => (bool)$created,
