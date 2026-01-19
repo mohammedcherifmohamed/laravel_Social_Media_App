@@ -113,9 +113,9 @@ public function ToggleFollowUser($id){
         // create notification for followed user 
         broadcast(new NotificationEvent(
             "follow",
-            "someone followed you",
+            auth()->user()->name . " followed you",
             [
-            "follower_id" => 12,
+            "follower_id" => auth()->id(),
             "followed_id" => $id,
            ]
         ) ) ;

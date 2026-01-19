@@ -1,0 +1,4 @@
+fixing IDK 19/01-2026
+
+add : push notification when follow someone and see his Profile (notifications.js)
+
