@@ -101,6 +101,9 @@ window.Echo.private(`chat.${USER_ID}`)
 .error((err)=>console.log(err))
         .listen("MessageSent",(e)=>{
                 // console.log("____"+e.sender_name);
+                const senderId = parseInt(e.sender_id);
+                updateNotification(senderId,e.sender_name,e.created_at);
+                
                 const msgDiv = document.getElementById('msg-div');
                 msgDiv.innerHTML += `
                 <div class="flex justify-start">
@@ -111,8 +114,7 @@ window.Echo.private(`chat.${USER_ID}`)
                 </div>
             `;
             msgDiv.scrollTop = msgDiv.scrollHeight;
-            const senderId = parseInt(e.sender_id);
-            updateNotification(senderId,e.sender_name,e.created_at);
+            
               
 })
 .listenForWhisper("typing",(e)=>{

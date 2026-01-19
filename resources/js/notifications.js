@@ -21,9 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <div class="p-3 bg-gray-50 rounded-lg border border-gray-200 hover:bg-gray-100 transition">
                 <p class="text-gray-800 text-sm">${e.message}</p>
                 <span class="text-xs text-gray-500">just now</span>
-                <a href="/home/SeeProfile/${e.data.follower_id}">
-                    <button class="text-xs text-blue-500" onclick="seeProfile(${e.data.follower_id})">See Profile</button>
-                </a>
+                    <a class="text-xs text-blue-500" href="${window.routes.profile.replace(':id',e.data.follower_id)}">See Profile</a>
 
             </div>
         `;

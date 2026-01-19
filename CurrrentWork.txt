@@ -2,3 +2,13 @@ fixing IDK 19/01-2026
 
 add : push notification when follow someone and see his Profile (notifications.js)
 
+best practice for routes in js  -> 
+    in the end of blade
+    window.routes = {
+        profile:"route("profile.see",":id")"
+    };
+    then in javascript :
+        href="window.routes.profile.replace(":id",${e.data.follower_id})"
+
+
+

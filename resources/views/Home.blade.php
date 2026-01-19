@@ -141,6 +141,11 @@
 <script>
     const USER_ID = {{ auth()->id() }};
     let CURRENT_CHAT_ID = null;
+
+    window.routes ={
+      profile: "{{route('profile.see',':id')}}"
+    };
+
 </script>
 @endsection
 
