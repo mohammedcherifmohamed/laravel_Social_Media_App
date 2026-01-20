@@ -5,8 +5,13 @@ namespace App\Http\Controllers\Authentication;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Tokens;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Mail\ForgotPassword ;
+use Carbon\Carbon ;
 
 
 class AuthController extends Controller
@@ -71,9 +76,84 @@ class AuthController extends Controller
 
     }
 
+
+    public function LoadForgotPassword(){
+        return view('Auth.Forgot') ;
+    }
+    
+    public function ForgotPassword(Request $req){
+        try{
+            $req->validate([
+                "email" => "required|email",
+            ]);
+            if(!User::where('email',$req->email)->exists()){
+                return redirect()->back()->with("error_forgot","Email does not exist") ;
+            }
+                
+                $token = Str::random(64);
+                Tokens::updateOrInsert(
+                    ['email' => $req->email],
+                    [
+                        'token' => $token,
+                        'created_at' => Carbon::now()
+                    ]
+
+                );
+                $link = url("/resetPassword/". $token . "?email=" . $req->email ) ;
+                
+                Mail::to($req->email)->send(new ForgotPassword(['link'=>$link]));
+                
+                return redirect()->back()->with("success_forgot","A password reset link has been sent.") ;
+        }catch(\Exception $e){
+        
+            return redirect()->back()->with("error_forgot","Failed to send reset link: " . $e->getMessage()) ;
+        }
+
+    }
+    public function LoadResetPassword(Request $req , $token){
+        return view('Auth.reset-password',["token" => $token, "email" => $req->email]) ;
+    }
+    public function ResetPassword(Request $req){
+
+        try{
+
+            $req->validate([
+                "password"=> "required|min:3|max:30|confirmed",
+                "email" => "required|email",
+                "token" => "required",
+            ]);
+
+            $found = Tokens::where("token",$req->token)->where("email",$req->email)->first();
+
+            if(!$found){
+                return redirect()->back()->with("error_reset","Invalid token or email.") ;
+            }
+
+            if(carbon::parse($found->created_at)->addMinutes(1)->isPast()){
+                return redirect()->back()->with("error_reset","Token has expired.") ;
+            }
+
+            User::where("email",$req->email)->update([
+                "password" => Hash::make($req->password),
+            ]);
+
+            return redirect()->route("login")->with("success_reset","Password has been reset successfully.") ;
+
+        }catch(\Exception $e){
+
+            return redirect()->back()->with("error_reset","Failed to reset password: " . $e->getMessage()) ;
+            
+        }
+        
+
+    }
+
+
+
     public function logout(){
         Auth::logout();
         return redirect()->route('login');
     }
 
 }
+

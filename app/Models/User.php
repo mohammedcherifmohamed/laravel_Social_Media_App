@@ -27,6 +27,8 @@ class User extends Authenticatable
         'password',
         'nickName',
         'image_path',
+        "social_id",
+        "social_type",
     ];
 
     /**

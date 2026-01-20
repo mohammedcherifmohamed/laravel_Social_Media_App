@@ -8,6 +8,7 @@ use App\Http\Controllers\LikeController;
 use App\Http\Controllers\FollowsController;
 use App\Http\Controllers\Comments;
 use App\Http\Controllers\NotificationsController;
+use App\Http\Controllers\SocialiteController;
 
 // for testing real app
 use App\Events\SendMsg;
@@ -39,11 +40,24 @@ Route::post('/login', [AuthController ::class , 'login_post'])->name('login.post
 
 Route::get('/logout', [AuthController ::class , 'logout'])->name('logout');
 
+Route::get('/forgotPassword',[AuthController::class,'LoadForgotPassword'])->name('forgot.load');
+Route::post('/forgotPassword',[AuthController::class,'ForgotPassword'])->name('forgot.post');
+
+Route::get('/resetPassword/{token}',[AuthController::class,'LoadResetPassword'])->name('reset.load');
+Route::post('/resetPassword',[AuthController::class,'ResetPassword'])->name('reset.post');
+
+Route::get('auth/google/callback',[SocialiteController::class,'handleGoogleCallBack']);
+Route::get('auth/google',[SocialiteController::class,'redirectTogoogle'])->name('AuthGoogle');
+
+
+
 // Route::get('/whoami', function () {
 //     return auth()->user();
 // });
 
 Route::Redirect("/","/home");
+
+
 
 Route::middleware(['auth'])->prefix('home')->group(function(){
     
