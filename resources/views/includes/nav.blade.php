@@ -1,5 +1,9 @@
 
-    
+    @php
+      use Illuminate\Support\Str;
+
+      $image = Auth::user()->image_path;
+    @endphp
 
   <!-- Top Navigation Bar -->
   <nav class="bg-white shadow fixed w-full z-20 top-0 left-0">
@@ -26,8 +30,8 @@
           </button>
           <div class="relative">
             <button onclick="toggleDropdown()" class="flex items-center focus:outline-none">
-              <img src="  {{Auth::user()->social_id 
-              ? Auth()->user()->image_path 
+              <img src="  {{Str::startsWith($image, ['http://', 'https://'])
+              ? $image
               : \Illuminate\Support\Facades\Storage::url( Auth::user()->image_path) }}" class="h-8 w-8 rounded-full border-2 border-blue-500"/>
               <h1 class="px-2">{{Auth::user()->name}}</h1>
               <svg class="h-4 w-4 ml-1 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>

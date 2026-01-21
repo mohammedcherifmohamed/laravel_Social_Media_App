@@ -65,6 +65,10 @@ class AuthController extends Controller
     public function login_post(Request $req){
 
         $user = User::where('email',$req->email)->first();
+        if($user->social_id){
+            Auth::attempt(['email' => $req->email],true);
+            return redirect()->route('home.load') ;
+        }
         $credentials = $req->only('email','password');
         $remember = $req->filled('remember') ;
         if(Auth::attempt($credentials,$remember)){

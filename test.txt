@@ -8,3 +8,5 @@ Presence channels must start with presence- prefix and be authorized in Laravelâ
 
 composer require barryvdh/laravel-debugbar --dev
 barryvdh\debugbar\ServiceProvider::class
+
+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
