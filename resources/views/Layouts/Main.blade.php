@@ -23,6 +23,9 @@
 
     @yield('content')
     
+    @auth
+        @include('includes.chat-box')
+    @endauth
     
 
 
