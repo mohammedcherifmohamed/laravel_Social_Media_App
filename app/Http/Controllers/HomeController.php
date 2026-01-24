@@ -174,6 +174,8 @@ public function ToggleFollowUser($id){
         // $message = "hello test" ;
         // broadcast(new MessageSent($message));
         // return "Message Brodcated";
+
+
         $user = User::findOrFail($id) ;
         $chat_messages = Chat::where(function ($query) use ($id) {
             $query->where('sender_id', auth()->id())
@@ -202,6 +204,18 @@ public function ToggleFollowUser($id){
             'message' => "required|max:255",
             'reciever_id' => "required|exists:users,id"
         ]);
+
+        // check if Sender follows Receiver
+        
+        // dd("Auth : " . auth()->id() . "Receiver : " . $req->reciever_id);
+
+        $allowed =  follows::where('follower_id',auth()->id())
+        ->where('followed_id',$req->reciever_id)
+        ->exists();
+
+    if($allowed){
+
+    
         $message = chat::create([
             'sender_id' => auth()->id(),
             'reciever_id' =>  $req->reciever_id,
@@ -215,7 +229,15 @@ public function ToggleFollowUser($id){
             'message' => $message
         ]);
     
-        
+       }else{
+
+    return redirect()->route('403');
+
+        return response()->json([
+            'success' => false ,
+            'message' => "You can only chat with users you follow."
+        ]);
+       }
     }
 
     public function getPosts(){

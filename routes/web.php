@@ -58,6 +58,14 @@ Route::get('auth/google',[SocialiteController::class,'redirectTogoogle'])->name(
 Route::Redirect("/","/home");
 
 
+Route::get('404', function () {
+    return view('errors.404');
+})->name('404');
+
+Route::get('403', function () {
+    return view('errors.403');
+})->name('403');
+
 
 Route::middleware(['auth'])->prefix('home')->group(function(){
     

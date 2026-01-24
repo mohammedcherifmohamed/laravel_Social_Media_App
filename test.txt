@@ -55,3 +55,4 @@ REVERB_EY=gzxmlovxvnrdejlrcert
 REVERB_RET=rg6javmzlt1zcblc3uk1
 
 
+check if follows befor open chat and send

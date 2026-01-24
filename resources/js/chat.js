@@ -64,6 +64,8 @@ window.sendMessage = function(event){
     const message = form.message.value;
     const reciever_id = form.reciever_id.value;
 
+    console.log("Sending message to " + reciever_id + ": " + message);
+
     fetch('/home/send', {
         method: 'POST',
         headers: {
