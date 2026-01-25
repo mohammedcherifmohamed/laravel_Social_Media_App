@@ -26,7 +26,9 @@ window.openChat = function (id) {
     .then(res => res.json())
     .then(data => {
         // console.log('Conversation data:', data);
-        const msgDiv = document.getElementById('msg-div');
+        if(data.success){
+
+             const msgDiv = document.getElementById('msg-div');
         const chat_receiver = document.getElementById('chat-receiver');
 
         const typer  = document.getElementById('typing-indicator');
@@ -48,6 +50,10 @@ window.openChat = function (id) {
             `;
         });
         msgDiv.scrollTop = msgDiv.scrollHeight;
+        }else{
+            alert(data.message);
+        }
+       
     })
     .catch(err => {
         console.error('Error fetching conversation:', err);
@@ -80,7 +86,8 @@ window.sendMessage = function(event){
     .then(res => res.json())
     .then(data => {
         // console.log('Message sent:', data);
-                const msgDiv = document.getElementById('msg-div');
+        if(data.success){
+                            const msgDiv = document.getElementById('msg-div');
 
          msgDiv.innerHTML += `
                 <div class="flex justify-end">
@@ -92,6 +99,10 @@ window.sendMessage = function(event){
             `;
         msgDiv.scrollTop = msgDiv.scrollHeight;
         form.message.value = '';
+        }else{
+            alert(data.messaage);
+        }
+
     })
     .catch(err => {
         console.error('Failed to send message:', err);

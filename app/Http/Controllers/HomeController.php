@@ -177,25 +177,44 @@ public function ToggleFollowUser($id){
 
 
         $user = User::findOrFail($id) ;
-        $chat_messages = Chat::where(function ($query) use ($id) {
-            $query->where('sender_id', auth()->id())
-                ->where('reciever_id', $id);
-        })->orWhere(function ($query) use ($id) {
-            $query->where('sender_id', $id)
-                ->where('reciever_id', auth()->id());
-        })
-        ->get();
+
+        //  check if there is follows relation 
+
+        $allowed = follows::where("follower_id",auth()->id())
+                                ->where("followed_id",$id)
+                                ->exists();
+
+        if($allowed){
+
+            $chat_messages = Chat::where(function ($query) use ($id) {
+                    $query->where('sender_id', auth()->id())
+                        ->where('reciever_id', $id);
+                })->orWhere(function ($query) use ($id) {
+                    $query->where('sender_id', $id)
+                        ->where('reciever_id', auth()->id());
+                })
+                ->get();
 
 
 
-        return response()->json([
-            'success' => true ,
-            'current_user' => auth()->id(),
-            'reciever_chat' => $user->name,
-            'reciever_id' => $user->id,
-            'chat_messages' => $chat_messages 
-        ]);
-    
+                return response()->json([
+                    'success' => true ,
+                    'current_user' => auth()->id(),
+                    'reciever_chat' => $user->name,
+                    'reciever_id' => $user->id,
+                    'chat_messages' => $chat_messages 
+                ]);
+            
+
+        }else{
+            return response()->json([
+                    'success' => false ,
+                    "message" => "You can only chat with users you follow." ,
+                ],403);
+
+        }
+
+        
     
     }
 
@@ -231,11 +250,9 @@ public function ToggleFollowUser($id){
     
        }else{
 
-    return redirect()->route('403');
-
         return response()->json([
             'success' => false ,
-            'message' => "You can only chat with users you follow."
+            'message' => "You can only send to users you follow."
         ]);
        }
     }
