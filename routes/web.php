@@ -32,11 +32,11 @@ Route::get("/test2",function(){
 
 Route::get('/register', [AuthController ::class , 'load_register'])->name('register.load');
 
-Route::post('/register', [AuthController ::class , 'register_post'])->name('register.post');
+Route::post('/register', [AuthController ::class , 'register_post'])->name('register.post')->middleware('throttle:3,1');
 
 Route::get('/login', [AuthController ::class , 'load_login'])->name('login');
 
-Route::post('/login', [AuthController ::class , 'login_post'])->name('login.post');
+Route::post('/login', [AuthController ::class , 'login_post'])->name('login.post')->middleware('throttle:5,1');
 
 Route::get('/logout', [AuthController ::class , 'logout'])->name('logout');
 

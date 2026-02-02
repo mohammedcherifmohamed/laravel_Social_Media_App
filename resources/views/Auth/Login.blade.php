@@ -48,7 +48,8 @@
 
     <!-- Login Form -->
     <div class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-      <form action="{{route('login.post')}}" method="POST" class="space-y-6">
+      <form onsubmit="showLoading()"
+       action="{{route('login.post')}}" method="POST" class="space-y-6">
        @csrf
         <!-- Email -->
         <div>
@@ -117,6 +118,7 @@
         <!-- Submit Button -->
         <button
           type="submit"
+          id="submitBtn"
           class="w-full bg-blue-500 text-white py-3 px-4 rounded-lg font-medium  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 transform hover:scale-105 shadow-lg"
         >
           Sign In

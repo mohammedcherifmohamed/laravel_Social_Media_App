@@ -29,9 +29,10 @@
         </x-alert>
     @endif
     <div id="registerForm" class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-      <form action="{{route('register.post')}}" method="POST" enctype="multipart/form-data" class="space-y-6">
-        @csrf
-@csrf
+      <form onsubmit="showLoading()"
+       action="{{route('register.post')}}" method="POST" 
+       enctype="multipart/form-data" class="space-y-6">
+      @csrf
 
     <div class="flex flex-col items-center">
         <label for="profileImage" class="block text-sm font-medium text-gray-700 mb-3">

@@ -43,3 +43,12 @@ window.previewImage = function (event) {
         reader.readAsDataURL(fileInput.files[0]);
     }
 }
+
+
+window.showLoading = function(){
+    let btn = document.getElementById('submitBtn') ;
+    btn.disabled = true ;
+    btn.textContent = 'Please wait...' ;
+
+
+}
